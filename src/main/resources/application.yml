@@ -1,0 +1,39 @@
+server:
+  port: 8081
+  tomcat:
+    uri-encoding: utf-8
+
+spring:
+  datasource:
+    druid:
+      # 数据库访问配置, 使用druid数据源
+      db-type: com.alibaba.druid.pool.DruidDataSource
+      driverClassName: com.mysql.jdbc.Driver
+      url: jdbc:mysql://127.0.0.1:3306/hep
+      username: root
+      password: root
+
+mybatis:
+  # type-aliases扫描路径
+  type-aliases-package: nchu.stu.attend.system.domain
+  # mapper xml实现扫描路径
+  mapper-locations: classpath:mapper/*/*.xml
+  configuration:
+    jdbc-type-for-null: null
+    # 使用jdbc的getGeneratedKeys 可以获取数据库自增主键值
+    use-generated-keys: true
+    # 使用列别名替换列名，默认true。如：select name as title from table
+    use-column-label: true
+    # 开启驼峰命名转换，如：Table(create_time) -> Entity(createTime)。不需要我们关心怎么进行字段匹配，mybatis会自动识别`大写字母与下划线`
+    map-underscore-to-camel-case: true
+
+mapper:
+  mappers: nchu.stu.attend.common.config.MyMapper
+  not-empty: false
+  identity: MYSQL
+
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
