@@ -1,0 +1,2 @@
+# Face_recognition_attendance
+基于人脸识别技术的实验课考勤管理系统
