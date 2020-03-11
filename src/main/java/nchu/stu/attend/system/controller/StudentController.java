@@ -3,6 +3,7 @@ package nchu.stu.attend.system.controller;
 import nchu.stu.attend.common.controller.BaseController;
 import nchu.stu.attend.common.domain.QueryRequest;
 import nchu.stu.attend.common.domain.ResponseBo;
+import nchu.stu.attend.common.util.FileUtil;
 import nchu.stu.attend.system.domain.Student;
 import nchu.stu.attend.system.service.StudentService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -25,7 +26,7 @@ import java.util.Map;
  * @description
  * @date 2020/2/22
  */
-//@Controller
+@Controller
 public class StudentController extends BaseController {
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -81,7 +82,7 @@ public class StudentController extends BaseController {
             return ResponseBo.ok("修改学生信息成功");
         }catch (Exception e){
             log.error("修改学生信息失败",e);
-            return ResponseBo.error("修改设学生信息失败，请联系网站管理员！");
+            return ResponseBo.error("修改学生信息失败，请联系网站管理员！");
         }
     }
 
@@ -99,29 +100,29 @@ public class StudentController extends BaseController {
         }
     }
 
-//    @RequestMapping("student/excel")
-//    @ResponseBody
-//    public ResponseBo studentExcel(Student student){
-//        try{
-//            List<Student> list = this.studentService.findAllStudent(student,null);
-//            return FileUtil.createExcelByPOIKit("学生表",list,Student.class);
-//        }catch (Exception e){
-//            log.error("导出学生信息Excel失败");
-//            return ResponseBo.error("导出Excel失败，请联系网站管理员！");
-//        }
-//    }
-//
-//
-//    @RequestMapping("student/csv")
-//    @ResponseBody
-//    public ResponseBo studentCsv(Student student) {
-//        try {
-//            List<Student> list = this.studentService.findAllStudent(student,null);
-//            return FileUtil.createCsv("学生表", list, Student.class);
-//        } catch (Exception e) {
-//            log.error("获取学生信息Csv失败", e);
-//            return ResponseBo.error("导出Csv失败，请联系网站管理员！");
-//        }
-//    }
+    @RequestMapping("student/excel")
+    @ResponseBody
+    public ResponseBo studentExcel(Student student){
+        try{
+            List<Student> list = this.studentService.findAllStudent(student,null);
+            return FileUtil.createExcelByPOIKit("学生表",list,Student.class);
+        }catch (Exception e){
+            log.error("导出学生信息Excel失败");
+            return ResponseBo.error("导出Excel失败，请联系网站管理员！");
+        }
+    }
+
+
+    @RequestMapping("student/csv")
+    @ResponseBody
+    public ResponseBo studentCsv(Student student) {
+        try {
+            List<Student> list = this.studentService.findAllStudent(student,null);
+            return FileUtil.createCsv("学生表", list, Student.class);
+        } catch (Exception e) {
+            log.error("获取学生信息Csv失败", e);
+            return ResponseBo.error("导出Csv失败，请联系网站管理员！");
+        }
+    }
 
 }

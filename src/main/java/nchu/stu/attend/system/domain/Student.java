@@ -1,5 +1,7 @@
 package nchu.stu.attend.system.domain;
 
+import nchu.stu.attend.common.annotation.ExportConfig;
+
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -21,30 +23,30 @@ public class Student implements Serializable {
     private Long stuId;
 
     @Column(name = "stu_college")
-    // @ExportConfig(value = "学院")
+    @ExportConfig(value = "学院")
     private String stuCollege;
 
     @Column(name = "stu_classNo")
-    //  @ExportConfig(value = "班级")
+    @ExportConfig(value = "班级")
     private String stuClassNo;
 
     @Column(name = "stu_number")
-    // @ExportConfig(value = "学号")
+    @ExportConfig(value = "学号")
     private String stuNumber;
 
     @Column(name = "stu_role")
     private int stuRole;
 
     @Column(name = "stu_name")
-    //  @ExportConfig(value = "姓名")
+    @ExportConfig(value = "姓名")
     private String stuName;
 
     @Column(name = "stu_phone")
-    //  @ExportConfig(value = "联系电话")
+    @ExportConfig(value = "联系电话")
     private String stuPhone;
 
     @Column(name = "stu_email")
-    //  @ExportConfig(value = "电子邮箱")
+    @ExportConfig(value = "电子邮箱")
     private String stuEmail;
 
 

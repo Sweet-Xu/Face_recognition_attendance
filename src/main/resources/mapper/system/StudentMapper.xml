@@ -20,13 +20,13 @@
         from t_student t
         where 1=1
         <if test="stuClassNo != null and stuClassNo != ''">
-            AND t.stu_classNo = #{stu_classNo}
+            AND t.stu_classNo = #{stuClassNo}
         </if>
         <if test="stuName != null and stuName != ''">
-            AND t.stu_name = #{stu_name}
+            AND t.stu_name = #{stuName}
         </if>
         <if test="stuNumber != null and stuNumber != ''">
-            AND t.stu_number = #{stu_number}
+            AND t.stu_number = #{stuNumber}
         </if>
         order by t.stu_id
     </select>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="nchu.stu.attend.system.dao.CourseMapper">
+    <resultMap id="CourseMapper" type="nchu.stu.attend.system.domain.Course">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <result column="course_id" jdbcType="DECIMAL" property="courseId" />
+        <result column="course_name" jdbcType="VARCHAR" property="courseName" />
+        <result column="teacher" jdbcType="VARCHAR" property="teacher" />
+        <result column="address" jdbcType="VARCHAR" property="address" />
+        <result column="course_date" jdbcType="DATE"  property="courseDate" />
+    </resultMap>
+
+    <select id="findAllCourse" resultType="course" parameterType="course">
+        select t.course_id,t.course_name ,t.teacher,t.address,t.course_date
+        from t_course t
+        where 1=1
+        <if test="courseName != null and courseName != ''">
+            AND t.course_name = #{courseName}
+        </if>
+        <if test="teacher != null and teacher != ''">
+            AND t.teacher = #{teacher}
+        </if>
+        <if test="courseDate != null and courseDate != ''">
+            AND t.course_date = #{courseDate}
+        </if>
+        order by t.course_id
+    </select>
+
+
+</mapper>
