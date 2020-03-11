@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class AttendApplication {
 
     public static void main(String[] args) {
+
         SpringApplication.run(AttendApplication.class, args);
     }
 

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 import nchu.stu.attend.common.domain.QueryRequest;
+import nchu.stu.attend.system.domain.User;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -25,9 +26,9 @@ public class BaseController {
     }
 
     //获取当前用户
-   // protected User getCurrentUser() {
-    //    return (User) getSubject().getPrincipal();
-   // }
+    protected User getCurrentUser() {
+        return (User) getSubject().getPrincipal();
+    }
 
     //获取session
     protected Session getSession() {

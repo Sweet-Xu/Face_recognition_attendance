@@ -8,3 +8,4 @@ import java.util.List;
 public interface StudentMapper extends MyMapper<Student> {
     List<Student> findAllStudent(Student student);
 }
+

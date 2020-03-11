@@ -25,7 +25,7 @@ import java.util.Map;
  * @description
  * @date 2020/2/22
  */
-@Controller
+//@Controller
 public class StudentController extends BaseController {
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -45,7 +45,7 @@ public class StudentController extends BaseController {
     }
 
    //@Log("增加学生信息")
-    @RequiresPermissions("student:add")
+  //  @RequiresPermissions("student:add")
     @PostMapping("student/add")
     @ResponseBody
     public ResponseBo addStudent(Student student){
@@ -72,7 +72,7 @@ public class StudentController extends BaseController {
 
 
   //  @Log("更新学生信息")
-    @RequiresPermissions("student:update")
+   // @RequiresPermissions("student:update")
     @PutMapping("student/update")
     @ResponseBody
     public ResponseBo updateStudent(Student student){
@@ -86,7 +86,7 @@ public class StudentController extends BaseController {
     }
 
    // @Log("删除学生信息")
-    @RequiresPermissions("student:delete")
+   // @RequiresPermissions("student:delete")
     @DeleteMapping("student/delete")
     @ResponseBody
     public ResponseBo deleteStudent(String ids){

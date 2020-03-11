@@ -60,7 +60,7 @@ public class StudentServiceImpl extends BaseService<Student> implements StudentS
     @Override
     public void deleteStudent(String ids){
         List<String> list = Arrays.asList(ids.split(","));
-        this.batchDelete(list,"studentId",Student.class);
+        this.batchDelete(list,"stuId",Student.class);
     }
 
     @Override
