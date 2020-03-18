@@ -39,7 +39,7 @@ public class User implements Serializable {
 
     @Column(name = "username")
     // @ExportConfig(value = "用户名")
-    private String userName;
+    private String username;
 
     @Column(name = "password")
     private String password;
@@ -50,15 +50,11 @@ public class User implements Serializable {
     @Column(name = "college_name")
     private String collegeName;
 
-    @Column(name = "user_email")
+    @Column(name = "class_id")
+    private Integer classId;
+
+    @Column(name = "email")
     private String userEmail;
-
-    @Column(name = "user_picture")
-    private String userPicture;
-
-    @Column(name = "user_status")
-    //@ExportConfig(value = "状态", convert = "s:0=锁定,1=有效")
-    private String status = STATUS_VALID;
 
     @Column(name = "user_create_time")
     private Date userCreateTime;
@@ -66,6 +62,9 @@ public class User implements Serializable {
     @Column(name = "last_login_time")
     private Date lastLoginTime;
 
+    @Column(name = "user_status")
+    //@ExportConfig(value = "状态", convert = "s:0=锁定,1=有效")
+    private String status = STATUS_VALID;
 
     public Long getUserId() {
         return userId;
@@ -75,12 +74,12 @@ public class User implements Serializable {
         this.userId = userId;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -91,9 +90,13 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public String getGender() { return gender;}
+    public String getGender() {
+        return gender;
+    }
 
-    public void setGender(String gender) { this.gender = gender; }
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 
     public String getCollegeName() {
         return collegeName;
@@ -103,20 +106,20 @@ public class User implements Serializable {
         this.collegeName = collegeName;
     }
 
+    public Integer getClassId() {
+        return classId;
+    }
+
+    public void setClassId(Integer classId) {
+        this.classId = classId;
+    }
+
     public String getUserEmail() {
         return userEmail;
     }
 
     public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
-    }
-
-    public String getUserPicture() {
-        return userPicture;
-    }
-
-    public void setUserPicture(String userPicture) {
-        this.userPicture = userPicture;
     }
 
     public Date getUserCreateTime() {
@@ -147,11 +150,12 @@ public class User implements Serializable {
     public String toString() {
         return "User{" +
                 "userId=" + userId +
-                ", userName='" + userName + '\'' +
+                ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
+                ", gender='" + gender + '\'' +
                 ", collegeName='" + collegeName + '\'' +
+                ", classId=" + classId +
                 ", userEmail='" + userEmail + '\'' +
-                ", userPicture='" + userPicture + '\'' +
                 ", userCreateTime=" + userCreateTime +
                 ", lastLoginTime=" + lastLoginTime +
                 ", status='" + status + '\'' +

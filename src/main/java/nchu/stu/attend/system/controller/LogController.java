@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -37,7 +38,7 @@ public class LogController extends BaseController {
         return super.selectByPageNumSize(request, () -> this.logService.findAllLogs(log));
     }
 
-    @RequestMapping("log/excel")
+    @GetMapping("log/excel")
     @ResponseBody
     public ResponseBo logExcel(SysLog log) {
         try {
@@ -49,7 +50,7 @@ public class LogController extends BaseController {
         }
     }
 
-    @RequestMapping("log/csv")
+    @GetMapping("log/csv")
     @ResponseBody
     public ResponseBo logCsv(SysLog log) {
         try {

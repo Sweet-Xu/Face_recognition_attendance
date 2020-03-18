@@ -6,15 +6,15 @@
       WARNING - @mbg.generated
     -->
 	  <id column="user_id" jdbcType="DECIMAL" property="userId" />
-	  <result column="username" jdbcType="VARCHAR" property="userName" />
+	  <result column="username" jdbcType="VARCHAR" property="username" />
 	  <result column="password" jdbcType="VARCHAR" property="password" />
 	  <result column="gender" jdbcType="CHAR" property="gender" />
 	  <result column="college_name" jdbcType="DECIMAL" property="collegeName" />
-	  <result column="user_email" jdbcType="VARCHAR" property="userEmail" />
-	  <result column="user_picture" jdbcType="VARCHAR" property="userPicture" />
-	  <result column="user_status" jdbcType="CHAR" property="status" />
+	  <result column="class_id" jdbcType="DECIMAL" property="classId" />
+	  <result column="email" jdbcType="VARCHAR" property="userEmail" />
 	  <result column="user_create_time" jdbcType="TIMESTAMP" property="userCreateTime" />
 	  <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime" />
+	  <result column="user_status" jdbcType="VARCHAR" property="status" />
   </resultMap>
   
 <!--  <select id="findUserWithDept" resultType="user" parameterType="user">-->
@@ -38,11 +38,11 @@
 <!--  </select>-->
 
 	<select id="findAllUser" resultType="user" parameterType="user">
-		select u.user_id ,u.username ,u.gender ,u.college_name ,u.user_email ,u.user_picture ,u.user_status ,
+		select u.user_id ,u.username ,u.gender ,u.college_name ,u.class_id,u.email ,u.user_status ,
 		u.user_create_time ,u.last_login_time from t_user u
 		where 1=1
-		<if test="userName != null and userName != ''">
-			AND u.username = #{userName}
+		<if test="username != null and username != ''">
+			AND u.username = #{username}
 		</if>
 		<if test="collegeName != null and collegeName != ''">
 			AND u.college_name = #{collegeName}
@@ -56,7 +56,7 @@
 
 
 	<select id="findUserWithRole" resultType="UserWithRole">
-		select u.user_id userId,u.username ,u.gender ,u.college_name ,u.user_email ,u.user_picture ,
+		select u.user_id userId,u.username ,u.gender ,u.college_name ,u.email ,
 		u.user_status ,ur.role_id roleId from t_user u
 		left join t_user_role ur on (u.user_id = ur.user_id)
 		where u.user_id = #{userId}

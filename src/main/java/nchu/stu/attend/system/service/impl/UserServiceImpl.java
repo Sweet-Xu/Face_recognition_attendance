@@ -44,9 +44,9 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
 
     //根据姓名查找用户
     @Override
-    public User findByName(String userName) {
+    public User findByName(String username) {
         Example example = new Example(User.class);
-        example.createCriteria().andCondition("lower(username)=", userName.toLowerCase());
+        example.createCriteria().andCondition("lower(username)=", username.toLowerCase());
         List<User> list = this.selectByExample(example);
         return list.isEmpty() ? null : list.get(0);
     }
@@ -81,9 +81,9 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
         user.setUserCreateTime(new Date());
      //   user.setTheme(User.DEFAULT_THEME);
      //   user.setAvatar(User.DEFAULT_AVATAR);
-        user.setUserPicture(User.DEFAULT_AVATAR);
+       // user.setUserPicture(User.DEFAULT_AVATAR);
        // user.setSsex(User.SEX_UNKNOW);
-        user.setPassword(MD5Utils.encrypt(user.getUserName(), user.getPassword()));
+        user.setPassword(MD5Utils.encrypt(user.getUsername(), user.getPassword()));
         this.save(user);
         UserRole ur = new UserRole();
         ur.setUserId(user.getUserId());
@@ -93,9 +93,9 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
 
 //    @Override
 //    @Transactional
-//    public void updateTheme(String theme, String userName) {
+//    public void updateTheme(String theme, String username) {
 //        Example example = new Example(User.class);
-//        example.createCriteria().andCondition("username=", userName);
+//        example.createCriteria().andCondition("username=", username);
 //        User user = new User();
 //        user.setTheme(theme);
 //        this.userMapper.updateByExampleSelective(user, example);
@@ -109,8 +109,8 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
         user.setUserCreateTime(new Date());
      //   user.setTheme(User.DEFAULT_THEME);
      //  user.setAvatar(User.DEFAULT_AVATAR);
-        user.setUserPicture(User.DEFAULT_AVATAR);
-        user.setPassword(MD5Utils.encrypt(user.getUserName(), user.getPassword()));
+      //  user.setUserPicture(User.DEFAULT_AVATAR);
+        user.setPassword(MD5Utils.encrypt(user.getUsername(), user.getPassword()));
         this.save(user);
         setUserRoles(user, roles);
     }
@@ -131,7 +131,7 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
     @Transactional
     public void updateUser(User user, Long[] roles) {
         user.setPassword(null);
-        user.setUserName(null);
+        user.setUsername(null);
       //  user.setModifyTime(new Date());
         this.updateNotNull(user);
         Example example = new Example(UserRole.class);
@@ -153,9 +153,9 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
     //更新最后登录时间
     @Override
     @Transactional
-    public void updateLoginTime(String userName) {
+    public void updateLoginTime(String username) {
         Example example = new Example(User.class);
-        example.createCriteria().andCondition("lower(username)=", userName.toLowerCase());
+        example.createCriteria().andCondition("lower(username)=", username.toLowerCase());
         User user = new User();
         user.setLastLoginTime(new Date());
         this.userMapper.updateByExampleSelective(user, example);
@@ -167,8 +167,8 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
     public void updatePassword(String password) {
         User user = (User) SecurityUtils.getSubject().getPrincipal();
         Example example = new Example(User.class);
-        example.createCriteria().andCondition("username=", user.getUserName());
-        String newPassword = MD5Utils.encrypt(user.getUserName().toLowerCase(), password);
+        example.createCriteria().andCondition("username=", user.getUsername());
+        String newPassword = MD5Utils.encrypt(user.getUsername().toLowerCase(), password);
         user.setPassword(newPassword);
         this.userMapper.updateByExampleSelective(user, example);
     }
@@ -194,7 +194,7 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
     @Override
     @Transactional
     public void updateUserProfile(User user) {
-        user.setUserName(null);
+        user.setUsername(null);
         user.setPassword(null);
 //        if (user.getDeptId() == null)
 //            user.setDeptId(0L);

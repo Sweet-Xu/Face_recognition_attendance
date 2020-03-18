@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="nchu.stu.attend.system.dao.AttendMapper">
+    <resultMap id="AttendMapper" type="nchu.stu.attend.system.domain.Attend">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <result column="attend_id" jdbcType="DECIMAL" property="attendId" />
+        <result column="course_id" jdbcType="DECIMAL" property="courseId" />
+        <result column="classroom_id" jdbcType="DECIMAL" property="classroomId" />
+        <result column="real_arrive_num" jdbcType="DECIMAL" property="realArriveNum" />
+        <result column="should_arrive_num" jdbcType="DECIMAL" property="shouldArriveNum" />
+        <result column="attend_start_time" jdbcType="DATE"  property="attendStartTime" />
+        <result column="attend_end_time" jdbcType="DATE"  property="attendEndTime" />
+        <result column="describes" jdbcType="VARCHAR" property="describes" />
+        <result column="attend_status" jdbcType="VARCHAR" property="attendStatus" />
+    </resultMap>
+
+<!--    &lt;!&ndash;根据学号，班级，姓名，课程名，任课教师，考勤结果自由组合来查询考勤结果&ndash;&gt;-->
+<!--    <select id="findAllAttend" resultType="attend" parameterType="attend">-->
+<!--        select t.attend_id,t.username ,t.class_no,t.realname,t.course_name,t.teacher,t.address,t.attend_time,t.attend_result-->
+<!--        from t_attend t-->
+<!--        where 1=1-->
+<!--        <if test="username != null and username != ''">-->
+<!--            AND t.username = #{username}-->
+<!--        </if>-->
+<!--        <if test="classNo != null and classNo != ''">-->
+<!--            AND t.class_no = #{classNo}-->
+<!--        </if>-->
+<!--        <if test="realname != null and realname != ''">-->
+<!--            AND t.realname = #{realname}-->
+<!--        </if>-->
+<!--        <if test="courseName != null and courseName != ''">-->
+<!--            AND t.course_name = #{courseName}-->
+<!--        </if>-->
+<!--        <if test="teacher != null and teacher != ''">-->
+<!--            AND t.teacher = #{teacher}-->
+<!--        </if>-->
+<!--        <if test="attendResult != null and attendResult != ''">-->
+<!--        AND t.attend_result = #{attendResult}-->
+<!--    </if>-->
+<!--        order by t.attend_id-->
+<!--    </select>-->
+
+
+    <!--    <select id="findAllStudent" resultType="Student" parameterType="Student">-->
+    <!--        select t.stu_id,t.stu_college ,t.stu_classNo,t.stu_number,t.stu_role,t.stu_name,t.stu_phone,t.stu_email-->
+    <!--        from t_student t-->
+    <!--        order by t.stu_id-->
+    <!--    </select>-->
+
+
+
+</mapper>

@@ -56,7 +56,7 @@ public class CourseController extends BaseController {
             this.courseService.deleteCourse(ids);
             return ResponseBo.ok("删除课程信息成功");
         }catch(Exception e){
-            log.error("删除课程信息失败");
+            log.error("删除课程信息失败",e);
             return ResponseBo.error("删除课程信息失败，请联系网站管理员！");
         }
     }
@@ -73,14 +73,14 @@ public class CourseController extends BaseController {
         }
     }
 
-    @RequestMapping("course/excel")
+    @GetMapping("course/excel")
     @ResponseBody
     public ResponseBo studentExcel(Course course){
         try{
             List<Course> list = this.courseService.findAllCourse(course,null);
             return FileUtil.createExcelByPOIKit("课程表",list,Course.class);
         }catch (Exception e){
-            log.error("导出课程信息Excel失败");
+            log.error("导出课程信息Excel失败",e);
             return ResponseBo.error("导出Excel失败，请联系网站管理员！");
         }
     }

@@ -16,7 +16,7 @@ public interface UserService extends IService<User> {
     //根据用户id查找
     UserWithRole findById(Long userId);
 
-    User findByName(String userName);
+    User findByName(String username);
 
 //    @Cacheable(key = "#p0.toString() + (#p1 != null ? #p1.toString() : '')")
 //    List<User> findUserWithDept(User user, QueryRequest request);
@@ -28,7 +28,7 @@ public interface UserService extends IService<User> {
  //   @CacheEvict(key = "#p0", allEntries = true)
     void registUser(User user);
 
-//    void updateTheme(String theme, String userName);
+//    void updateTheme(String theme, String username);
 
   //  @CacheEvict(allEntries = true)
     void addUser(User user, Long[] roles);
@@ -39,7 +39,7 @@ public interface UserService extends IService<User> {
   //  @CacheEvict(key = "#p0", allEntries = true)
     void deleteUsers(String userIds);
 
-    void updateLoginTime(String userName);
+    void updateLoginTime(String username);
 
     void updatePassword(String password);
 

@@ -107,7 +107,7 @@ public class UserController extends BaseController {
     @ResponseBody
     public ResponseBo regist(HttpServletRequest request, User user, String code) {
         try {
-            User result = this.userService.findByName(user.getUserName());
+            User result = this.userService.findByName(user.getUsername());
             if (result != null) {
                 return ResponseBo.warn("该用户名已被使用！");
             }
@@ -193,7 +193,7 @@ public class UserController extends BaseController {
     @ResponseBody
     public boolean checkPassword(String password) {
         User user = getCurrentUser();
-        String encrypt = MD5Utils.encrypt(user.getUserName().toLowerCase(), password);
+        String encrypt = MD5Utils.encrypt(user.getUsername().toLowerCase(), password);
         return user.getPassword().equals(encrypt);
     }
 
@@ -251,19 +251,19 @@ public class UserController extends BaseController {
         }
     }
 
-    @PutMapping("user/changeAvatar")
-    @ResponseBody
-    public ResponseBo changeAvatar(String imgName) {
-        try {
-            String[] img = imgName.split("/");
-            String realImgName = img[img.length - 1];
-            User user = getCurrentUser();
-            user.setUserPicture(realImgName);
-            this.userService.updateNotNull(user);
-            return ResponseBo.ok("更新头像成功！");
-        } catch (Exception e) {
-            log.error("更换头像失败", e);
-            return ResponseBo.error("更新头像失败，请联系网站管理员！");
-        }
-    }
+//    @PutMapping("user/changeAvatar")
+//    @ResponseBody
+//    public ResponseBo changeAvatar(String imgName) {
+//        try {
+//            String[] img = imgName.split("/");
+//            String realImgName = img[img.length - 1];
+//            User user = getCurrentUser();
+//            user.setUserPicture(realImgName);
+//            this.userService.updateNotNull(user);
+//            return ResponseBo.ok("更新头像成功！");
+//        } catch (Exception e) {
+//            log.error("更换头像失败", e);
+//            return ResponseBo.error("更新头像失败，请联系网站管理员！");
+//        }
+//    }
 }
