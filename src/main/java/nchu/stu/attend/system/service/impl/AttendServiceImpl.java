@@ -29,16 +29,13 @@ import java.util.List;
  * @description
  * @date 2020/3/12
  */
-@Service("AttendService")
+//@Service("AttendService")
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class AttendServiceImpl extends BaseService<Attend> implements AttendService {
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private AttendMapper attendMapper;
-
-    @Autowired
-//    private CourseMapper courseMapper;
 
     @Override
     public List<Attend> findAllAttend(Attend attend, QueryRequest request) {
@@ -49,6 +46,11 @@ public class AttendServiceImpl extends BaseService<Attend> implements AttendServ
             return new ArrayList<>();
         }
     }
+
+
+    @Autowired
+//    private CourseMapper courseMapper;
+
 
     //增加考勤信息
     @Override

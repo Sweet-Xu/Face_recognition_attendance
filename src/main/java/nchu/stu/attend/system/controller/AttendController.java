@@ -22,7 +22,7 @@ import java.util.Map;
  * @description
  * @date 2020/3/12
  */
-@Controller
+//@Controller
 public class AttendController extends BaseController {
     private Logger log = LoggerFactory.getLogger(this.getClass());
 

@@ -43,11 +43,11 @@
 <!--    </select>-->
 
 
-    <!--    <select id="findAllStudent" resultType="Student" parameterType="Student">-->
-    <!--        select t.stu_id,t.stu_college ,t.stu_classNo,t.stu_number,t.stu_role,t.stu_name,t.stu_phone,t.stu_email-->
-    <!--        from t_student t-->
-    <!--        order by t.stu_id-->
-    <!--    </select>-->
+<!--        <select id="findAllStudent" resultType="Student" parameterType="Student">-->
+<!--            select t.stu_id,t.stu_college ,t.stu_classNo,t.stu_number,t.stu_role,t.stu_name,t.stu_phone,t.stu_email-->
+<!--            from t_student t-->
+<!--            order by t.stu_id-->
+<!--        </select>-->
 
 
 

@@ -38,23 +38,23 @@ public class UserController extends BaseController {
 
     private static final String ON = "on";
 
-    @GetMapping("user")
-  //  @RequiresPermissions("user:list")
-    public String index(Model model) {
-        User user = super.getCurrentUser();
-        model.addAttribute("user", user);
-        return "system/user/user";
-    }
+//    @GetMapping("user")
+//  //  @RequiresPermissions("user:list")
+//    public String index(Model model) {
+//        User user = super.getCurrentUser();
+//        model.addAttribute("user", user);
+//        return "system/user/user";
+//    }
 
-    @GetMapping("user/checkUserName")
-    @ResponseBody
-    public boolean checkUserName(String username, String oldusername) {
-        if (StringUtils.isNotBlank(oldusername) && username.equalsIgnoreCase(oldusername)) {
-            return true;
-        }
-        User result = this.userService.findByName(username);
-        return result == null;
-    }
+//    @GetMapping("user/checkUserName")
+//    @ResponseBody
+//    public boolean checkUserName(String username, String oldusername) {
+//        if (StringUtils.isNotBlank(oldusername) && username.equalsIgnoreCase(oldusername)) {
+//            return true;
+//        }
+//        User result = this.userService.findByName(username);
+//        return result == null;
+//    }
 
 
     //获取到用户的所有信息包括角色名
@@ -103,27 +103,27 @@ public class UserController extends BaseController {
         }
     }
 
-    @PostMapping("user/regist")
-    @ResponseBody
-    public ResponseBo regist(HttpServletRequest request, User user, String code) {
-        try {
-            User result = this.userService.findByName(user.getUsername());
-            if (result != null) {
-                return ResponseBo.warn("该用户名已被使用！");
-            }
-            String realCode = (String) request.getSession().getAttribute("code");
-            System.out.println("session里的验证码是：" + realCode);
-            System.out.println("输入的验证码是：" + code);
-            if (!realCode.equals(code)) {
-                return ResponseBo.warn("验证码错误！");
-            }
-            this.userService.registUser(user);
-            return ResponseBo.ok();
-        } catch (Exception e) {
-            log.error("注册失败", e);
-            return ResponseBo.error("注册失败，请联系网站管理员！");
-        }
-    }
+//    @PostMapping("user/regist")
+//    @ResponseBody
+//    public ResponseBo regist(HttpServletRequest request, User user, String code) {
+//        try {
+//            User result = this.userService.findByName(user.getUsername());
+//            if (result != null) {
+//                return ResponseBo.warn("该用户名已被使用！");
+//            }
+//            String realCode = (String) request.getSession().getAttribute("code");
+//            System.out.println("session里的验证码是：" + realCode);
+//            System.out.println("输入的验证码是：" + code);
+//            if (!realCode.equals(code)) {
+//                return ResponseBo.warn("验证码错误！");
+//            }
+//            this.userService.registUser(user);
+//            return ResponseBo.ok();
+//        } catch (Exception e) {
+//            log.error("注册失败", e);
+//            return ResponseBo.error("注册失败，请联系网站管理员！");
+//        }
+//    }
 
  //   @Log("更换主题")
 //    @RequestMapping("user/theme")
@@ -156,6 +156,7 @@ public class UserController extends BaseController {
             return ResponseBo.error("新增用户失败，请联系网站管理员！");
         }
     }
+
 
     @Log("修改用户")
  //   @RequiresPermissions("user:update")

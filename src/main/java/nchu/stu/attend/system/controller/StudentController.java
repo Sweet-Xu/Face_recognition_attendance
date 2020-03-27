@@ -45,6 +45,8 @@ public class StudentController extends BaseController {
         return super.selectByPageNumSize(request,()->this.studentService.findAllStudent(student,request));
     }
 
+
+
    //@Log("增加学生信息")
   //  @RequiresPermissions("student:add")
     @PostMapping("student/add")

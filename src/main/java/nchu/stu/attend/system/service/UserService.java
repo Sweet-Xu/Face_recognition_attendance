@@ -25,13 +25,15 @@ public interface UserService extends IService<User> {
     List<User> findAllUser(User user, QueryRequest request);
 
 
- //   @CacheEvict(key = "#p0", allEntries = true)
-    void registUser(User user);
+ //   @CacheEvict(key = "#p0", allEntries = true )
+    //void registUser(User user); 不提供自主注册功能
 
 //    void updateTheme(String theme, String username);
 
   //  @CacheEvict(allEntries = true)
     void addUser(User user, Long[] roles);
+
+    void addUser(User user);
 
   //  @CacheEvict(key = "#p0", allEntries = true)
     void updateUser(User user, Long[] roles);

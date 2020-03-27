@@ -62,6 +62,10 @@ public class User implements Serializable {
     @Column(name = "last_login_time")
     private Date lastLoginTime;
 
+    //用户类型
+    @Column(name = "user_type")
+    private String userType;
+
     @Column(name = "user_status")
     //@ExportConfig(value = "状态", convert = "s:0=锁定,1=有效")
     private String status = STATUS_VALID;
@@ -146,6 +150,14 @@ public class User implements Serializable {
         this.status = status;
     }
 
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -158,6 +170,7 @@ public class User implements Serializable {
                 ", userEmail='" + userEmail + '\'' +
                 ", userCreateTime=" + userCreateTime +
                 ", lastLoginTime=" + lastLoginTime +
+                ", userType='" + userType + '\'' +
                 ", status='" + status + '\'' +
                 '}';
     }

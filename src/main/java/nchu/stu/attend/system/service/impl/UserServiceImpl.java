@@ -74,22 +74,22 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
     }
 
 
-    //注册用户
-    @Override
-    @Transactional
-    public void registUser(User user) {
-        user.setUserCreateTime(new Date());
-     //   user.setTheme(User.DEFAULT_THEME);
-     //   user.setAvatar(User.DEFAULT_AVATAR);
-       // user.setUserPicture(User.DEFAULT_AVATAR);
-       // user.setSsex(User.SEX_UNKNOW);
-        user.setPassword(MD5Utils.encrypt(user.getUsername(), user.getPassword()));
-        this.save(user);
-        UserRole ur = new UserRole();
-        ur.setUserId(user.getUserId());
-        ur.setRoleId(2L);
-        this.userRoleMapper.insert(ur);
-    }
+//    //注册用户
+//    @Override
+//    @Transactional
+//    public void registUser(User user) {
+//        user.setUserCreateTime(new Date());
+//     //   user.setTheme(User.DEFAULT_THEME);
+//     //   user.setAvatar(User.DEFAULT_AVATAR);
+//       // user.setUserPicture(User.DEFAULT_AVATAR);
+//       // user.setSsex(User.SEX_UNKNOW);
+//        user.setPassword(MD5Utils.encrypt(user.getUsername(), user.getPassword()));
+//        this.save(user);
+//        UserRole ur = new UserRole();
+//        ur.setUserId(user.getUserId());
+//        ur.setRoleId(2L);
+//        this.userRoleMapper.insert(ur);
+//    }
 
 //    @Override
 //    @Transactional
@@ -115,6 +115,12 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
         setUserRoles(user, roles);
     }
 
+
+    //重载一个新增用户
+    @Override
+    public void addUser(User user){
+        this.save(user);
+    }
 
     //设置用户的角色
     private void setUserRoles(User user, Long[] roles) {
