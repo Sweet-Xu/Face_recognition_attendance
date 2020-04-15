@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="nchu.stu.attend.system.dao.UserMapper">
-  <resultMap id="BaseResultMap" type="nchu.stu.attend.system.domain.User">
+  <resultMap id="UserMapper" type="nchu.stu.attend.system.domain.User">
     <!--
       WARNING - @mbg.generated
     -->
-	  <id column="user_id" jdbcType="DECIMAL" property="userId" />
+	  <result column="user_id" jdbcType="DECIMAL" property="userId" />
 	  <result column="username" jdbcType="VARCHAR" property="username" />
 	  <result column="password" jdbcType="VARCHAR" property="password" />
-	  <result column="gender" jdbcType="CHAR" property="gender" />
-	  <result column="college_name" jdbcType="DECIMAL" property="collegeName" />
-	  <result column="class_id" jdbcType="DECIMAL" property="classId" />
-	  <result column="email" jdbcType="VARCHAR" property="userEmail" />
+	  <result column="user_type" jdbcType="VARCHAR" property="userType" />
 	  <result column="user_create_time" jdbcType="TIMESTAMP" property="userCreateTime" />
 	  <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime" />
-	  <result column="user_status" jdbcType="VARCHAR" property="status" />
+	  <result column="user_status" jdbcType="VARCHAR" property="userStatus" />
   </resultMap>
   
 <!--  <select id="findUserWithDept" resultType="user" parameterType="user">-->
@@ -38,29 +35,36 @@
 <!--  </select>-->
 
 	<select id="findAllUser" resultType="user" parameterType="user">
-		select u.user_id ,u.username ,u.gender ,u.college_name ,u.class_id,u.email ,u.user_status ,
-		u.user_create_time ,u.last_login_time from t_user u
+		select u.user_id ,u.username ,u.user_type ,u.user_create_time ,u.last_login_time,u.user_status
+		from t_user u
 		where 1=1
 		<if test="username != null and username != ''">
 			AND u.username = #{username}
 		</if>
-		<if test="collegeName != null and collegeName != ''">
-			AND u.college_name = #{collegeName}
+		<if test="userType != null and userType != ''">
+			AND u.user_type = #{userType}
 		</if>
-		<if test="status != null and status != ''">
-			AND u.user_status = #{status}
+		<if test="userStatus != null and userStatus != ''">
+			AND u.user_status = #{userStatus}
 		</if>
 		order by u.user_id
 	</select>
 
+	<select id="findUserByName" resultType="user" parameterType="user">
+		select u.user_id ,u.username ,u.password,u.user_type ,u.user_status
+		from t_user u
+		where 1=1
+		<if test="username != null and username != ''">
+			AND u.username = #{username}
+		</if>
+	</select>
 
-
-	<select id="findUserWithRole" resultType="UserWithRole">
-		select u.user_id userId,u.username ,u.gender ,u.college_name ,u.email ,
-		u.user_status ,ur.role_id roleId from t_user u
-		left join t_user_role ur on (u.user_id = ur.user_id)
-		where u.user_id = #{userId}
-  </select>
+<!--	<select id="findUserWithRole" resultType="UserWithRole">-->
+<!--		select u.user_id userId,u.username ,u.gender ,u.college_name ,u.email ,-->
+<!--		u.user_status ,ur.role_id roleId from t_user u-->
+<!--		left join t_user_role ur on (u.user_id = ur.user_id)-->
+<!--		where u.user_id = #{userId}-->
+<!--  </select>-->
   
 <!--  <select id="findUserProfile" resultType="user" parameterType="user">-->
 <!--	SELECT-->
@@ -95,26 +99,18 @@
 
 	<select id="findUserProfile" resultType="user" parameterType="user" >
 	SELECT
+		U .userId ,
 		U .username ,
-		U .USER_ID userId,
-		U .gender ,
-		U .college_name ,
-		U .user_email ,
-		U .user_picture ,
-		group_concat(r.role_name) AS roleName
+		U .userType ,
+		U .userCreateTime ,
+		U .lastLoginTime ,
+		U .userStatus ,
 	FROM
 		t_user U
-	LEFT JOIN t_user_role ur ON U .user_id = ur.user_id
-	LEFT JOIN t_role r ON r.role_id = ur.role_id
 	WHERE
 		U .USER_ID = #{userId}
 	GROUP BY
-		U .username,
-		U .USER_ID,
-		U .gender,
-		U .college_name,
-		U .user_email,
-		U .user_picture
+		U .USER_ID
   </select>
   
 </mapper>

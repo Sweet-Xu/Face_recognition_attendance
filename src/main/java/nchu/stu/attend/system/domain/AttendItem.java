@@ -1,9 +1,9 @@
 package nchu.stu.attend.system.domain;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -25,14 +25,19 @@ public class AttendItem implements Serializable {
     @Column(name = "attend_id")
     private Long attendId;
 
-    @Column(name = "user_id")
-    private Long userId;
+    @Column(name = "student_id")
+    private String studentId;
 
+//    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "attend_time")
     private Date attendTime;
 
-    @Column(name = "attend_reslut")
-    private String attendReslut;
+//    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
+
+
+    @Column(name = "attend_result")
+    private String attendResult;
 
     public Long getAttendItemId() {
         return attendItemId;
@@ -50,12 +55,12 @@ public class AttendItem implements Serializable {
         this.attendId = attendId;
     }
 
-    public Long getUserId() {
-        return userId;
+    public String getStudentId() {
+        return studentId;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
     }
 
     public Date getAttendTime() {
@@ -66,12 +71,12 @@ public class AttendItem implements Serializable {
         this.attendTime = attendTime;
     }
 
-    public String getAttendReslut() {
-        return attendReslut;
+    public String getAttendResult() {
+        return attendResult;
     }
 
-    public void setAttendReslut(String attendReslut) {
-        this.attendReslut = attendReslut;
+    public void setAttendResult(String attendResult) {
+        this.attendResult = attendResult;
     }
 
     @Override
@@ -79,9 +84,9 @@ public class AttendItem implements Serializable {
         return "AttendItem{" +
                 "attendItemId=" + attendItemId +
                 ", attendId=" + attendId +
-                ", userId=" + userId +
+                ", studentId='" + studentId + '\'' +
                 ", attendTime=" + attendTime +
-                ", attendReslut='" + attendReslut + '\'' +
+                ", attendResult='" + attendResult + '\'' +
                 '}';
     }
 }

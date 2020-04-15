@@ -14,6 +14,7 @@ import java.util.List;
  * @description
  * @date 2020/2/22
  */
+
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public abstract class BaseService<T> implements IService<T> {
 
@@ -70,6 +71,5 @@ public abstract class BaseService<T> implements IService<T> {
     public List<T> selectByExample(Object example) {
         return mapper.selectByExample(example);
     }
-
 
 }

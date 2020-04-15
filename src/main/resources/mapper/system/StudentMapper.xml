@@ -5,30 +5,29 @@
         <!--
           WARNING - @mbg.generated
         -->
-        <result column="stu_id" jdbcType="DECIMAL" property="stuId" />
-        <result column="stu_college" jdbcType="VARCHAR" property="stuCollege" />
-        <result column="stu_classNo" jdbcType="VARCHAR" property="stuClassNo" />
-        <result column="stu_number" jdbcType="VARCHAR" property="stuNumber" />
-        <result column="stu_role" jdbcType="INTEGER"  property="stuRole" />
-        <result column="stu_name" jdbcType="VARCHAR"  property="stuName" />
-        <result column="stu_phone" jdbcType="VARCHAR" property="stuPhone" />
-        <result column="stu_email" jdbcType="VARCHAR" property="stuEmail" />
+        <result column="student_id" jdbcType="VARCHAR" property="studentId" />
+        <result column="class_id" jdbcType="INTEGER" property="classId" />
+        <result column="student_name" jdbcType="VARCHAR" property="studentName" />
+        <result column="student_gender" jdbcType="VARCHAR" property="studentGender" />
+        <result column="student_email" jdbcType="VARCHAR"  property="studentEmail" />
+        <result column="student_qq" jdbcType="VARCHAR"  property="studentQQ" />
+        <result column="user_id" jdbcType="DECIMAL" property="userId" />
     </resultMap>
 
     <select id="findAllStudent" resultType="student" parameterType="student">
-        select t.stu_id,t.stu_college ,t.stu_classNo,t.stu_number,t.stu_role,t.stu_name,t.stu_phone,t.stu_email
+        select t.student_id,t.class_id ,t.student_name,t.student_gender,t.student_email,t.student_qq,t.user_id
         from t_student t
         where 1=1
-        <if test="stuClassNo != null and stuClassNo != ''">
-            AND t.stu_classNo = #{stuClassNo}
-        </if>
-        <if test="stuName != null and stuName != ''">
-            AND t.stu_name = #{stuName}
-        </if>
-        <if test="stuNumber != null and stuNumber != ''">
-            AND t.stu_number = #{stuNumber}
-        </if>
-        order by t.stu_id
+<!--        <if test="stuClassNo != null and stuClassNo != ''">-->
+<!--            AND t.stu_classNo = #{stuClassNo}-->
+<!--        </if>-->
+<!--        <if test="stuName != null and stuName != ''">-->
+<!--            AND t.stu_name = #{stuName}-->
+<!--        </if>-->
+<!--        <if test="stuNumber != null and stuNumber != ''">-->
+<!--            AND t.stu_number = #{stuNumber}-->
+<!--        </if>-->
+        order by t.student_id
     </select>
 
 <!--    <select id="findAllStudent" resultType="Student" parameterType="Student">-->

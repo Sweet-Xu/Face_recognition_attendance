@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import nchu.stu.attend.common.domain.QueryRequest;
 import nchu.stu.attend.common.service.impl.BaseService;
@@ -19,10 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import nchu.stu.attend.common.util.MD5Utils;
 import nchu.stu.attend.system.dao.UserMapper;
-import nchu.stu.attend.system.dao.UserRoleMapper;
-import nchu.stu.attend.system.domain.UserRole;
-import nchu.stu.attend.system.domain.UserWithRole;
-import nchu.stu.attend.system.service.UserRoleService;
 import nchu.stu.attend.system.service.UserService;
 import tk.mybatis.mapper.entity.Example;
 
@@ -35,13 +30,6 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
     @Autowired
     private UserMapper userMapper;
 
-    @Autowired
-    private UserRoleMapper userRoleMapper;
-
-    @Autowired
-    private UserRoleService userRoleService;
-
-
     //根据姓名查找用户
     @Override
     public User findByName(String username) {
@@ -50,17 +38,6 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
         List<User> list = this.selectByExample(example);
         return list.isEmpty() ? null : list.get(0);
     }
-
-
-//    @Override
-//    public List<User> findUserWithDept(User user, QueryRequest request) {
-//        try {
-//            return this.userMapper.findUserWithDept(user);
-//        } catch (Exception e) {
-//            log.error("error", e);
-//            return new ArrayList<>();
-//        }
-//    }
 
     //查找所有用户信息
     @Override
@@ -73,6 +50,95 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
         }
     }
 
+    @Override
+    public List<User> findAllUser(User user){
+        return this.userMapper.select(user);
+    }
+
+    //一个新增用户
+    @Override
+    @Transactional
+    public long addUser(User user){
+        user.setUserCreateTime(new Date());
+        user.setLastLoginTime(new Date());
+        user.setPassword(MD5Utils.encrypt(user.getUsername(), user.getPassword()));
+        userMapper.insert(user);
+        return user.getUserId();
+    }
+
+
+    @Override
+    public User findById(Long id){
+        return userMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    @Transactional
+    public void updateUser(User user) {
+        user.setPassword(MD5Utils.encrypt(user.getUsername(), user.getPassword()));
+        this.updateNotNull(user);
+    }
+
+    //批量删除用户
+    @Override
+    @Transactional
+    public void deleteUsers(Long id) {
+//        List<String> list = new ArrayList<>();
+//        list.add(id+"");
+//        this.batchDelete(list,"userId", User.class);
+        this.delete(id);
+    }
+
+    //更新最后登录时间
+    @Override
+    @Transactional
+    public void updateLoginTime(String username) {
+        Example example = new Example(User.class);
+        example.createCriteria().andCondition("lower(username)=", username.toLowerCase());
+        User user = new User();
+        user.setLastLoginTime(new Date());
+        this.userMapper.updateByExampleSelective(user, example);
+    }
+
+
+    //修改密码
+    @Override
+    @Transactional
+    public void updatePassword(String password) {
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
+        Example example = new Example(User.class);
+        example.createCriteria().andCondition("username=", user.getUsername());
+        String newPassword = MD5Utils.encrypt(user.getUsername().toLowerCase(), password);
+        user.setPassword(newPassword);
+        this.userMapper.updateByExampleSelective(user, example);
+    }
+
+
+    //查询用户个人信息
+    @Override
+    public User findUserProfile(User user) {
+        return this.userMapper.findUserProfile(user);
+    }
+
+    @Override
+    public boolean checkUser(String username, String password) {
+        User user = new User();
+        user.setUsername(username);
+        User newUser= userMapper.findUserByName(user);
+        String encrypt = MD5Utils.encrypt(user.getUsername(), password);
+        return newUser.getPassword().equals(encrypt);
+    }
+
+    //    @Override
+//    @Transactional
+//    public void updateUserProfile(User user) {
+//        user.setUsername(null);
+//        user.setPassword(null);
+////        if (user.getDeptId() == null)
+////            user.setDeptId(0L);
+//        this.updateNotNull(user);
+//    }
+}
 
 //    //注册用户
 //    @Override
@@ -91,120 +157,19 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
 //        this.userRoleMapper.insert(ur);
 //    }
 
-//    @Override
-//    @Transactional
-//    public void updateTheme(String theme, String username) {
-//        Example example = new Example(User.class);
-//        example.createCriteria().andCondition("username=", username);
-//        User user = new User();
-//        user.setTheme(theme);
-//        this.userMapper.updateByExampleSelective(user, example);
+
+//
+//    //设置用户的角色
+//    private void setUserRoles(User user, Long[] roles) {
+//        Arrays.stream(roles).forEach(roleId -> {
+//            UserRole ur = new UserRole();
+//            ur.setUserId(user.getUserId());
+//            ur.setRoleId(roleId);
+//            this.userRoleMapper.insert(ur);
+//        });
 //    }
 
 
-    //增加用户
-    @Override
-    @Transactional
-    public void addUser(User user, Long[] roles) {
-        user.setUserCreateTime(new Date());
-     //   user.setTheme(User.DEFAULT_THEME);
-     //  user.setAvatar(User.DEFAULT_AVATAR);
-      //  user.setUserPicture(User.DEFAULT_AVATAR);
-        user.setPassword(MD5Utils.encrypt(user.getUsername(), user.getPassword()));
-        this.save(user);
-        setUserRoles(user, roles);
-    }
 
 
-    //重载一个新增用户
-    @Override
-    public void addUser(User user){
-        this.save(user);
-    }
 
-    //设置用户的角色
-    private void setUserRoles(User user, Long[] roles) {
-        Arrays.stream(roles).forEach(roleId -> {
-            UserRole ur = new UserRole();
-            ur.setUserId(user.getUserId());
-            ur.setRoleId(roleId);
-            this.userRoleMapper.insert(ur);
-        });
-    }
-
-    //更新用户信息
-    @Override
-    @Transactional
-    public void updateUser(User user, Long[] roles) {
-        user.setPassword(null);
-        user.setUsername(null);
-      //  user.setModifyTime(new Date());
-        this.updateNotNull(user);
-        Example example = new Example(UserRole.class);
-        example.createCriteria().andCondition("user_id=", user.getUserId());
-        this.userRoleMapper.deleteByExample(example);
-        setUserRoles(user, roles);
-    }
-
-
-    //批量删除用户
-    @Override
-    @Transactional
-    public void deleteUsers(String userIds) {
-        List<String> list = Arrays.asList(userIds.split(","));
-        this.batchDelete(list, "userId", User.class);
-        this.userRoleService.deleteUserRolesByUserId(userIds);
-    }
-
-    //更新最后登录时间
-    @Override
-    @Transactional
-    public void updateLoginTime(String username) {
-        Example example = new Example(User.class);
-        example.createCriteria().andCondition("lower(username)=", username.toLowerCase());
-        User user = new User();
-        user.setLastLoginTime(new Date());
-        this.userMapper.updateByExampleSelective(user, example);
-    }
-
-    //修改密码
-    @Override
-    @Transactional
-    public void updatePassword(String password) {
-        User user = (User) SecurityUtils.getSubject().getPrincipal();
-        Example example = new Example(User.class);
-        example.createCriteria().andCondition("username=", user.getUsername());
-        String newPassword = MD5Utils.encrypt(user.getUsername().toLowerCase(), password);
-        user.setPassword(newPassword);
-        this.userMapper.updateByExampleSelective(user, example);
-    }
-
-    //根据用户Id查找用户的信息包括用户的角色
-    @Override
-    public UserWithRole findById(Long userId) {
-        List<UserWithRole> list = this.userMapper.findUserWithRole(userId);
-        List<Long> roleList = list.stream().map(UserWithRole::getRoleId).collect(Collectors.toList());
-        if (list.isEmpty())
-            return null;
-        UserWithRole userWithRole = list.get(0);
-        userWithRole.setRoleIds(roleList);
-        return userWithRole;
-    }
-
-    //查询用户个人信息
-    @Override
-    public User findUserProfile(User user) {
-        return this.userMapper.findUserProfile(user);
-    }
-
-    @Override
-    @Transactional
-    public void updateUserProfile(User user) {
-        user.setUsername(null);
-        user.setPassword(null);
-//        if (user.getDeptId() == null)
-//            user.setDeptId(0L);
-        this.updateNotNull(user);
-    }
-
-}

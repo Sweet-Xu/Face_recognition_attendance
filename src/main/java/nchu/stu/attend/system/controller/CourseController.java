@@ -1,9 +1,13 @@
 package nchu.stu.attend.system.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageHelper;
+import com.google.gson.JsonObject;
 import nchu.stu.attend.common.controller.BaseController;
 import nchu.stu.attend.common.domain.QueryRequest;
 import nchu.stu.attend.common.domain.ResponseBo;
 import nchu.stu.attend.common.util.FileUtil;
+import nchu.stu.attend.common.util.ResponseUtil;
 import nchu.stu.attend.system.domain.Course;
 import nchu.stu.attend.system.domain.Student;
 import nchu.stu.attend.system.service.CourseService;
@@ -28,18 +32,28 @@ public class CourseController extends BaseController {
     @Autowired
     private CourseService courseService;
 
-    @GetMapping("course/list")
+    @GetMapping("/api/course")
     @ResponseBody
     public Map<String ,Object> courseList(QueryRequest request, Course course)
     {
-        System.out.println(course);
-        return super.selectByPageNumSize(request,()->this.courseService.findAllCourse(course,request));
+        int total = courseService.findAllCourse(course).size();
+        PageHelper.startPage(request.getCurrent(),request.getPageSize());
+        Map<String,Object> map = ResponseUtil.pageResult(this.courseService.findAllCourse(course),total,true,request.getPageSize(),request.getCurrent());
+        return map;
     }
 
-    @PostMapping("course/add")
+    @GetMapping("/api/courseTable")
     @ResponseBody
-    public ResponseBo addCourse(Course course){
+    public String courseTable()
+    {
+        return "{ 1: [ {  startTime:1551920827000,   endTime:1551924427000,  stuNameList: ['123'],  teaName: '312' } ] }";
+    }
+
+    @PostMapping("/api/course")
+    @ResponseBody
+    public ResponseBo addCourse(@RequestBody Course course){
         try{
+            System.out.println(JSONObject.toJSONString(course));
             courseService.addCourse(course);
             return ResponseBo.ok("增加课程信息成功！");
         }catch(Exception e){
@@ -49,11 +63,11 @@ public class CourseController extends BaseController {
     }
 
 
-    @DeleteMapping("course/delete")
+    @DeleteMapping("/api/course")
     @ResponseBody
-    public ResponseBo deleteCourse(String ids){
+    public ResponseBo deleteCourse(String courseId){
         try{
-            this.courseService.deleteCourse(ids);
+            this.courseService.deleteCourse(courseId);
             return ResponseBo.ok("删除课程信息成功");
         }catch(Exception e){
             log.error("删除课程信息失败",e);
@@ -61,10 +75,12 @@ public class CourseController extends BaseController {
         }
     }
 
-    @PutMapping("course/update")
+    @PutMapping("/api/course")
     @ResponseBody
-    public ResponseBo updateStudent(Course course){
+    public ResponseBo updateStudent(@RequestBody Course course){
         try{
+            System.out.println(course);
+            System.out.println(JSONObject.toJSONString(course));
             this.courseService.updateCourse(course);
             return ResponseBo.ok("修改课程信息成功");
         }catch (Exception e){

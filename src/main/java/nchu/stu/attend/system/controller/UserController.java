@@ -1,25 +1,24 @@
 package nchu.stu.attend.system.controller;
 
+import com.github.pagehelper.PageHelper;
 import nchu.stu.attend.common.annotation.Log;
 import nchu.stu.attend.common.controller.BaseController;
 import nchu.stu.attend.common.domain.QueryRequest;
 import nchu.stu.attend.common.domain.ResponseBo;
+import nchu.stu.attend.common.dto.CurrentUserDto;
 import nchu.stu.attend.common.util.FileUtil;
 import nchu.stu.attend.common.util.MD5Utils;
+import nchu.stu.attend.common.util.ResponseUtil;
 import nchu.stu.attend.system.domain.User;
-import nchu.stu.attend.system.domain.UserWithRole;
 import nchu.stu.attend.system.service.UserService;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.apache.commons.lang3.StringUtils;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
@@ -37,6 +36,17 @@ public class UserController extends BaseController {
     private UserService userService;
 
     private static final String ON = "on";
+
+    //获取到用户的所有信息包括角色名
+    @GetMapping("/api/user/currentUser")
+    @ResponseBody
+    public CurrentUserDto getCurrentUser(HttpSession session) {
+        CurrentUserDto dto = new CurrentUserDto();
+        User user = (User) session.getAttribute("currentUser");
+        dto.setUserid(user.getUserId());
+        dto.setName(user.getUsername());
+        return dto;
+    }
 
 //    @GetMapping("user")
 //  //  @RequiresPermissions("user:list")
@@ -72,36 +82,39 @@ public class UserController extends BaseController {
     }
 
     @Log("获取用户信息")
-    @GetMapping("user/list")
+    @GetMapping("api/user")
    // @RequiresPermissions("user:list")
     @ResponseBody
-    public Map<String, Object> userList(QueryRequest request, User user) {
-        return super.selectByPageNumSize(request, () -> this.userService.findAllUser(user, request));
+    public Map<String, Object> userList(QueryRequest request,User user ) {
+      int total = userService.findAllUser(user).size();
+        PageHelper.startPage(request.getCurrent(),request.getPageSize());
+        Map<String,Object> map = ResponseUtil.pageResult(userService.findAllUser(user),total,true,request.getPageSize(),request.getCurrent());
+        return map;
     }
 
-    @GetMapping("user/excel")
-    @ResponseBody
-    public ResponseBo userExcel(User user) {
-        try {
-            List<User> list = this.userService.findAllUser(user, null);
-            return FileUtil.createExcelByPOIKit("用户表", list, User.class);
-        } catch (Exception e) {
-            log.error("导出用户信息Excel失败", e);
-            return ResponseBo.error("导出Excel失败，请联系网站管理员！");
-        }
-    }
-
-    @GetMapping("user/csv")
-    @ResponseBody
-    public ResponseBo userCsv(User user) {
-        try {
-            List<User> list = this.userService.findAllUser(user, null);
-            return FileUtil.createCsv("用户表", list, User.class);
-        } catch (Exception e) {
-            log.error("导出用户信息Csv失败", e);
-            return ResponseBo.error("导出Csv失败，请联系网站管理员！");
-        }
-    }
+//    @GetMapping("user/excel")
+//    @ResponseBody
+//    public ResponseBo userExcel(User user) {
+//        try {
+//            List<User> list = this.userService.findAllUser(user, null);
+//            return FileUtil.createExcelByPOIKit("用户表", list, User.class);
+//        } catch (Exception e) {
+//            log.error("导出用户信息Excel失败", e);
+//            return ResponseBo.error("导出Excel失败，请联系网站管理员！");
+//        }
+//    }
+//
+//    @GetMapping("user/csv")
+//    @ResponseBody
+//    public ResponseBo userCsv(User user) {
+//        try {
+//            List<User> list = this.userService.findAllUser(user, null);
+//            return FileUtil.createCsv("用户表", list, User.class);
+//        } catch (Exception e) {
+//            log.error("导出用户信息Csv失败", e);
+//            return ResponseBo.error("导出Csv失败，请联系网站管理员！");
+//        }
+//    }
 
 //    @PostMapping("user/regist")
 //    @ResponseBody
@@ -139,36 +152,48 @@ public class UserController extends BaseController {
 //    }
 
 
-    @Log("新增用户")
-   // @RequiresPermissions("user:add")
-    @PostMapping("user/add")
+//    @Log("新增用户")
+//   // @RequiresPermissions("user:add")
+//    @PostMapping("user/add")
+//    @ResponseBody
+//    public ResponseBo addUser(User user, Long[] roles) {
+//        try {
+//            if (ON.equalsIgnoreCase(user.getStatus()))
+//                user.setStatus(User.STATUS_VALID);
+//            else
+//                user.setStatus(User.STATUS_LOCK);
+//            this.userService.addUser(user, roles);
+//            return ResponseBo.ok("新增用户成功！");
+//        } catch (Exception e) {
+//            log.error("新增用户失败", e);
+//            return ResponseBo.error("新增用户失败，请联系网站管理员！");
+//        }
+//    }
+
+    @Log("增加用户信息")
+    @PostMapping("api/user")
     @ResponseBody
-    public ResponseBo addUser(User user, Long[] roles) {
+    public ResponseBo addUser(@RequestBody User user){
         try {
-            if (ON.equalsIgnoreCase(user.getStatus()))
-                user.setStatus(User.STATUS_VALID);
-            else
-                user.setStatus(User.STATUS_LOCK);
-            this.userService.addUser(user, roles);
-            return ResponseBo.ok("新增用户成功！");
-        } catch (Exception e) {
-            log.error("新增用户失败", e);
-            return ResponseBo.error("新增用户失败，请联系网站管理员！");
+            this.userService.addUser(user);
+            return ResponseBo.ok("增加用户信息成功！");
+        }catch (Exception e){
+            log.error("增加用户信息失败",e);
+            return ResponseBo.error("增加用户信息失败，请联系网站管理员");
         }
     }
 
-
     @Log("修改用户")
- //   @RequiresPermissions("user:update")
-    @PutMapping("user/update")
+    //   @RequiresPermissions("user:update")
+    @PutMapping("api/user")
     @ResponseBody
-    public ResponseBo updateUser(User user, Long[] rolesSelect) {
+    public ResponseBo updateUser(@RequestBody User user) {
         try {
-            if (ON.equalsIgnoreCase(user.getStatus()))
-                user.setStatus(User.STATUS_VALID);
-            else
-                user.setStatus(User.STATUS_LOCK);
-            this.userService.updateUser(user, rolesSelect);
+//            if (ON.equalsIgnoreCase(user.getUserStatus()))
+//                user.setUserStatus(User.STATUS_VALID);
+//            else
+//                user.setUserStatus(User.STATUS_LOCK);
+            this.userService.updateUser(user);
             return ResponseBo.ok("修改用户成功！");
         } catch (Exception e) {
             log.error("修改用户失败", e);
@@ -177,18 +202,51 @@ public class UserController extends BaseController {
     }
 
     @Log("删除用户")
-   // @RequiresPermissions("user:delete")
-    @DeleteMapping("user/delete")
+    // @RequiresPermissions("user:delete")
+    @DeleteMapping("api/user")
     @ResponseBody
-    public ResponseBo deleteUsers(String ids) {
+    public ResponseBo deleteUsers(Long userId) {
         try {
-            this.userService.deleteUsers(ids);
+            this.userService.deleteUsers(userId);
             return ResponseBo.ok("删除用户成功！");
         } catch (Exception e) {
             log.error("删除用户失败", e);
             return ResponseBo.error("删除用户失败，请联系网站管理员！");
         }
     }
+
+
+//    @Log("修改用户")
+// //   @RequiresPermissions("user:update")
+//    @PutMapping("user/update")
+//    @ResponseBody
+//    public ResponseBo updateUser(User user, Long[] rolesSelect) {
+//        try {
+//            if (ON.equalsIgnoreCase(user.getStatus()))
+//                user.setStatus(User.STATUS_VALID);
+//            else
+//                user.setStatus(User.STATUS_LOCK);
+//            this.userService.updateUser(user, rolesSelect);
+//            return ResponseBo.ok("修改用户成功！");
+//        } catch (Exception e) {
+//            log.error("修改用户失败", e);
+//            return ResponseBo.error("修改用户失败，请联系网站管理员！");
+//        }
+//    }
+
+//    @Log("删除用户")
+//   // @RequiresPermissions("user:delete")
+//    @DeleteMapping("user/delete")
+//    @ResponseBody
+//    public ResponseBo deleteUsers(String ids) {
+//        try {
+//            this.userService.deleteUsers(ids);
+//            return ResponseBo.ok("删除用户成功！");
+//        } catch (Exception e) {
+//            log.error("删除用户失败", e);
+//            return ResponseBo.error("删除用户失败，请联系网站管理员！");
+//        }
+//    }
 
     @GetMapping("user/checkPassword")
     @ResponseBody
@@ -210,47 +268,36 @@ public class UserController extends BaseController {
         }
     }
 
-    @GetMapping("user/profile")
-    public String profileIndex(Model model) {
-        User user = super.getCurrentUser();
-        user = this.userService.findUserProfile(user);
-        String ssex = user.getGender();
-        if (User.SEX_MALE.equals(ssex)) {
-            user.setGender("性别：男");
-        } else if (User.SEX_FEMALE.equals(ssex)) {
-            user.setGender("性别：女");
-        } else {
-            user.setGender("性别：保密");
-        }
-        model.addAttribute("user", user);
-        return "system/user/profile";
-    }
+//    @GetMapping("user/profile")
+//    public String profileIndex(Model model) {
+//        User user = super.getCurrentUser();
+//        user = this.userService.findUserProfile(user);
+//        String ssex = user.getGender();
+//        if (User.SEX_MALE.equals(ssex)) {
+//            user.setGender("性别：男");
+//        } else if (User.SEX_FEMALE.equals(ssex)) {
+//            user.setGender("性别：女");
+//        } else {
+//            user.setGender("性别：保密");
+//        }
+//        model.addAttribute("user", user);
+//        return "system/user/profile";
+//    }
 
-    //获取到用户所有信息不包括角色名
-    @GetMapping("user/getUserProfile")
-    @ResponseBody
-    public ResponseBo getUserProfile(Long userId) {
-        try {
-            User user = new User();
-            user.setUserId(userId);
-            return ResponseBo.ok(this.userService.findUserProfile(user));
-        } catch (Exception e) {
-            log.error("获取用户信息失败", e);
-            return ResponseBo.error("获取用户信息失败，请联系网站管理员！");
-        }
-    }
+//    //获取到用户所有信息不包括角色名
+//    @GetMapping("user/getUserProfile")
+//    @ResponseBody
+//    public ResponseBo getUserProfile(Long userId) {
+//        try {
+//            User user = new User();
+//            user.setUserId(userId);
+//            return ResponseBo.ok(this.userService.findUserProfile(user));
+//        } catch (Exception e) {
+//            log.error("获取用户信息失败", e);
+//            return ResponseBo.error("获取用户信息失败，请联系网站管理员！");
+//        }
+//    }
 
-    @PutMapping("user/updateUserProfile")
-    @ResponseBody
-    public ResponseBo updateUserProfile(User user) {
-        try {
-            this.userService.updateUserProfile(user);
-            return ResponseBo.ok("更新个人信息成功！");
-        } catch (Exception e) {
-            log.error("更新用户信息失败", e);
-            return ResponseBo.error("更新用户信息失败，请联系网站管理员！");
-        }
-    }
 
 //    @PutMapping("user/changeAvatar")
 //    @ResponseBody

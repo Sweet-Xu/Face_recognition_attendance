@@ -1,5 +1,6 @@
 package nchu.stu.attend.common.config;
 
+import nchu.stu.attend.common.scheduled.CronScheduler;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,8 +14,10 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "febs")
 public class HepProperties {
 
+
     //shiro配置
  //   private ShiroProperties shiro = new ShiroProperties();
+
 
     //验证码配置
     private ValidateCodeProperties validateCode = new ValidateCodeProperties();

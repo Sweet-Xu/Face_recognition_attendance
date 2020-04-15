@@ -54,7 +54,7 @@ public class BaseController {
     }
 
     protected Map<String, Object> selectByPageNumSize(QueryRequest request, Supplier<?> s) {
-        PageHelper.startPage(request.getPageNum(), request.getPageSize());
+        PageHelper.startPage(request.getCurrent(), request.getPageSize());
         PageInfo<?> pageInfo = new PageInfo<>((List<?>) s.get());
         PageHelper.clearPage();
         return getDataTable(pageInfo);

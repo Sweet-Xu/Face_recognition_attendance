@@ -13,7 +13,7 @@ public class QueryRequest implements Serializable {
     private static final long serialVersionUID = -4869594085374385813L;
 
     private int pageSize;
-    private int pageNum;
+    private int current;
 
     public int getPageSize() {
         return pageSize;
@@ -23,20 +23,20 @@ public class QueryRequest implements Serializable {
         this.pageSize = pageSize;
     }
 
-    public int getPageNum() {
-        return pageNum;
+    public int getCurrent() {
+        return current;
     }
 
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
                 .add("pageSize", pageSize)
-                .add("pageNum", pageNum)
+                .add("current", current)
                 .toString();
     }
 
-    public void setPageNum(int pageNum) {
-        this.pageNum = pageNum;
+    public void setCurrent(int current) {
+        this.current = current;
     }
 
 }

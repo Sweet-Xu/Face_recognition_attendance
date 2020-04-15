@@ -18,114 +18,98 @@ public class Student implements Serializable {
     private static final long serialVersionUID = -4852732617765810959L;
 
     @Id
-    @GeneratedValue(generator = "JDBC")
-    @Column(name = "stu_id")
-    private Long stuId;
+    @Column(name = "student_id")
+    private String studentId;
 
-    @Column(name = "stu_college")
-    @ExportConfig(value = "学院")
-    private String stuCollege;
+    @Column(name = "class_id")
+    private Integer classId;
 
-    @Column(name = "stu_classNo")
-    @ExportConfig(value = "班级")
-    private String stuClassNo;
-
-    @Column(name = "stu_number")
-    @ExportConfig(value = "学号")
-    private String stuNumber;
-
-    @Column(name = "stu_role")
-    private int stuRole;
-
-    @Column(name = "stu_name")
+    @Column(name = "student_name")
     @ExportConfig(value = "姓名")
-    private String stuName;
+    private String studentName;
 
-    @Column(name = "stu_phone")
-    @ExportConfig(value = "联系电话")
-    private String stuPhone;
+    @Column(name = "student_gender")
+    @ExportConfig(value = "性别")
+    private String studentGender;
 
-    @Column(name = "stu_email")
-    @ExportConfig(value = "电子邮箱")
-    private String stuEmail;
+    @Column(name = "student_email")
+    @ExportConfig(value = "邮箱")
+    private String studentEmail;
 
+    @Column(name = "student_qq")
+    @ExportConfig(value = "QQ号")
+    private String studentQQ;
 
-    public Long getStuId() {
-        return stuId;
+    @Column(name = "user_id")
+    @ExportConfig(value = "用户id")
+    private Long userId;
+
+    public String getStudentId() {
+        return studentId;
     }
 
-    public void setStuId(Long stuId) {
-        this.stuId = stuId;
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
     }
 
-    public String getStuCollege() {
-        return stuCollege;
+    public Integer getClassId() {
+        return classId;
     }
 
-    public void setStuCollege(String stuCollege) {
-        this.stuCollege = stuCollege;
+    public void setClassId(Integer classId) {
+        this.classId = classId;
     }
 
-    public String getStuClassNo() {
-        return stuClassNo;
+    public String getStudentName() {
+        return studentName;
     }
 
-    public void setStuClassNo(String stuClassNo) {
-        this.stuClassNo = stuClassNo;
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
     }
 
-    public String getStuNumber() {
-        return stuNumber;
+    public String getStudentGender() {
+        return studentGender;
     }
 
-    public void setStuNumber(String stuNumber) {
-        this.stuNumber = stuNumber;
+    public void setStudentGender(String studentGender) {
+        this.studentGender = studentGender;
     }
 
-    public int getStuRole() {
-        return stuRole;
+    public String getStudentEmail() {
+        return studentEmail;
     }
 
-    public void setStuRole(int stuRole) {
-        this.stuRole = stuRole;
+    public void setStudentEmail(String studentEmail) {
+        this.studentEmail = studentEmail;
     }
 
-    public String getStuName() {
-        return stuName;
+    public String getStudentQQ() {
+        return studentQQ;
     }
 
-    public void setStuName(String stuName) {
-        this.stuName = stuName;
+    public void setStudentQQ(String studentQQ) {
+        this.studentQQ = studentQQ;
     }
 
-    public String getStuPhone() {
-        return stuPhone;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setStuPhone(String stuPhone) {
-        this.stuPhone = stuPhone;
-    }
-
-    public String getStuEmail() {
-        return stuEmail;
-    }
-
-    public void setStuEmail(String stuEmail) {
-        this.stuEmail = stuEmail;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     @Override
     public String toString() {
         return "Student{" +
-                "stuId=" + stuId +
-                ", stuCollege='" + stuCollege + '\'' +
-                ", stuClassNo='" + stuClassNo + '\'' +
-                ", stuNumber='" + stuNumber + '\'' +
-                ", stuRole=" + stuRole +
-                ", stuName='" + stuName + '\'' +
-                ", stuPhone='" + stuPhone + '\'' +
-                ", stuEmail='" + stuEmail + '\'' +
+                "studentId=" + studentId +
+                ", classId='" + classId + '\'' +
+                ", studentName='" + studentName + '\'' +
+                ", studentGender='" + studentGender + '\'' +
+                ", studentEmail='" + studentEmail + '\'' +
+                ", studentQQ='" + studentQQ + '\'' +
+                ", userId=" + userId +
                 '}';
     }
-
 }

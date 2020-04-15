@@ -337,14 +337,14 @@ public class ExcelUtils {
 
     private void requiredbuilderParams() {
         if (mClass == null) {
-            throw new IllegalArgumentException("请先使用cc.hep.util.ExcelUtils.builder(Class<?>)构造器初始化参数。");
+            throw new IllegalArgumentException("请先使用cc.hep.util.ExcelUtils.builder(Classes<?>)构造器初始化参数。");
         }
     }
 
     private void requiredexportParams() {
         if (mClass == null || mResponse == null) {
             throw new IllegalArgumentException(
-                    "请先使用cc.hep.util.ExcelUtils.export(Class<?>, HttpServletResponse)构造器初始化参数。");
+                    "请先使用cc.hep.util.ExcelUtils.export(Classes<?>, HttpServletResponse)构造器初始化参数。");
         }
 
     }

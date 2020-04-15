@@ -1,9 +1,11 @@
 package nchu.stu.attend.system.controller;
 
+import com.github.pagehelper.PageHelper;
 import nchu.stu.attend.common.controller.BaseController;
 import nchu.stu.attend.common.domain.QueryRequest;
 import nchu.stu.attend.common.domain.ResponseBo;
 import nchu.stu.attend.common.util.FileUtil;
+import nchu.stu.attend.common.util.ResponseUtil;
 import nchu.stu.attend.system.domain.SysLog;
 import nchu.stu.attend.system.service.LogService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -11,8 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
@@ -26,16 +28,19 @@ public class LogController extends BaseController {
     @Autowired
     private LogService logService;
 
-    @RequestMapping("log")
-  //  @RequiresPermissions("log:list")
-    public String index() {
-        return "system/log/log";
-    }
+//    @RequestMapping("log")
+//  //  @RequiresPermissions("log:list")
+//    public String index() {
+//        return "system/log/log";
+//    }
 
-    @RequestMapping("log/list")
+    @GetMapping("api/log")
     @ResponseBody
-    public Map<String, Object> logList(QueryRequest request, SysLog log) {
-        return super.selectByPageNumSize(request, () -> this.logService.findAllLogs(log));
+    public Map<String,Object> logList(QueryRequest request, SysLog log) {
+        int total = logService.findAllLogs(log).size();
+        PageHelper.startPage(request.getCurrent(),request.getPageSize());
+        Map<String,Object> map = ResponseUtil.pageResult(this.logService.findAllLogs(log),total,true,request.getPageSize(),request.getCurrent());
+        return map;
     }
 
     @GetMapping("log/excel")
@@ -62,12 +67,12 @@ public class LogController extends BaseController {
         }
     }
 
-    @RequiresPermissions("log:delete")
-  //  @RequestMapping("log/delete")
+   // @RequiresPermissions("log:delete")
+    @DeleteMapping("api/log")
     @ResponseBody
-    public ResponseBo deleteLogss(String ids) {
+    public ResponseBo deleteLogss(String logId) {
         try {
-            this.logService.deleteLogs(ids);
+            this.logService.deleteLogs(logId);
             return ResponseBo.ok("删除日志成功！");
         } catch (Exception e) {
             logger.error("删除日志失败", e);

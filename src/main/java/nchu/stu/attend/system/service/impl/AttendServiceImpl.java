@@ -7,9 +7,12 @@ import nchu.stu.attend.common.util.FileUtil;
 import nchu.stu.attend.system.dao.AttendMapper;
 import nchu.stu.attend.system.dao.CourseMapper;
 import nchu.stu.attend.system.domain.Attend;
+import nchu.stu.attend.system.domain.AttendRule;
 import nchu.stu.attend.system.domain.Course;
 import nchu.stu.attend.system.domain.Student;
+import nchu.stu.attend.system.service.AttendRuleService;
 import nchu.stu.attend.system.service.AttendService;
+import nchu.stu.attend.system.service.CourseService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -29,13 +33,19 @@ import java.util.List;
  * @description
  * @date 2020/3/12
  */
-//@Service("AttendService")
+@Service("AttendService")
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class AttendServiceImpl extends BaseService<Attend> implements AttendService {
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private AttendMapper attendMapper;
+
+    @Autowired
+    private AttendRuleService attendRuleService;
+
+    @Autowired
+    private CourseService courseService;
 
     @Override
     public List<Attend> findAllAttend(Attend attend, QueryRequest request) {
@@ -47,41 +57,15 @@ public class AttendServiceImpl extends BaseService<Attend> implements AttendServ
         }
     }
 
-
-    @Autowired
-//    private CourseMapper courseMapper;
-
-
     //增加考勤信息
     @Override
     public void addAttend(Attend attend) {
-
-//        String username = attend.getUsername();
-//        String classNo = username.substring(0,5);
-//        attend.setClassNo(classNo);
-//
-//        Date attendTime = attend.getAttendTime();
-//        System.out.println(attendTime);
-//
-//        String address = attend.getAddress();
-//        System.out.println("  "+address);
-//
-//        Course course = courseMapper.findByDateAndAddress(attendTime,address);
-//
-//        System.out.println("\n"+course);
-//        attend.setCourseName(course.getCourseName());
-//        attend.setTeacher(course.getTeacher());
-//        //判断考勤结果
-//        String result = "1";
-//
-//        attend.setAttendResult(result);
         this.save(attend);
     }
 
     @Override
-    public void deleteAttend(String ids) {
-        List<String> list = Arrays.asList(ids.split(","));
-        this.batchDelete(list,"attendId", Attend.class);
+    public void deleteAttend(String attendId) {
+        this.delete(attendId);
     }
 
     @Override
@@ -89,13 +73,37 @@ public class AttendServiceImpl extends BaseService<Attend> implements AttendServ
         return this.selectByKey(attendId);
     }
 
+//    //用触发器控制
+//    @Override
+//    public void updateAttend(Attend attend) {
+//        Date date = new Date();
+//        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+//        String a = sdf.format(date);
+//        AttendRule attendRule = attendRuleService.findById(attend.getRuleId());
+//        String b =  attendRule.getCheckEndTime();
+//        if(a.equals(b)){
+//            //设置为考勤结束
+//            attend.setAttendStatus("0");
+//        }
+//        this.updateNotNull(attend);
+//    }
+
     @Override
-    public void updateAttend(Attend attend) {
-        try{
-            this.updateNotNull(attend);
-        }catch (Exception e){
-            log.error("error",e);
-        }
+    public void batchAddAttend(){
+//        List<Course> courses = courseService.findAllTodayCourse();
+//        for (Course course:courses){
+//            Attend attend = new Attend();
+//            attend.setCourseId(course.getCourseId());
+//            attend.setClassroomId(course.getClassroomId());
+//            //默认为“课堂考勤规则一”
+//            attend.setRuleId(1);
+//            //考勤状态默认为“正在考勤”
+//            attend.setAttendStatus("1");
+//            this.save(attend);
+//        }
+
     }
+
+
 
 }

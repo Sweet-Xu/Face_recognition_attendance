@@ -10,7 +10,7 @@ import io.swagger.annotations.ApiParam;
 
 /* 类注解 */
 @Api(value = "desc of class")
-@RestController
+//@RestController
 public class HelloController {
 
     /* 方法注解 */

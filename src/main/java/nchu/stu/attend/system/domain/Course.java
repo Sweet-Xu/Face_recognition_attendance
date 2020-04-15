@@ -23,35 +23,47 @@ public class Course implements Serializable {
     @Column(name = "course_id")
     private Long courseId;
 
-    @Column(name = "course_name")
-    @ExportConfig(value = "课程名")
-    private String courseName;
-
     @Column(name = "class_id")
     private Integer classId;
 
     @Column(name = "classroom_id")
-    private Integer classroomId;
+    private String classroomId;
+
+    @Column(name = "course_name")
+    @ExportConfig(value = "课程名")
+    private String courseName;
+
+    @Column(name = "teacher_id")
+    @ExportConfig(value = "教师名")
+    private String teacherId;
+
+    @Column(name = "course_date")
+    @ExportConfig(value = "课程日期")
+    private Date courseDate;
 
     @Column(name = "course_start_time")
-    private Date courseStartTime;
+    private String courseStartTime;
+
+    @Column(name = "course_end_time")
+    private String courseEndTime;
 
     @Column(name = "course_start_week")
     private String courseStartWeek;
-
-    @Column(name = "course_end_time")
-    private Date courseEndTime;
 
     @Column(name = "course_end_week")
     private String courseEndWeek;
 
     @Column(name = "school_year")
     @ExportConfig(value = "学年")
-    private  String schoolYear;
+    private String schoolYear;
 
     @Column(name = "semester")
     @ExportConfig(value = "学期")
     private String semester;
+
+    @Column(name = "grade")
+    @ExportConfig(value = "年级")
+    private String grade;
 
     public Long getCourseId() {
         return courseId;
@@ -59,14 +71,6 @@ public class Course implements Serializable {
 
     public void setCourseId(Long courseId) {
         this.courseId = courseId;
-    }
-
-    public String getCourseName() {
-        return courseName;
-    }
-
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
     }
 
     public Integer getClassId() {
@@ -77,20 +81,32 @@ public class Course implements Serializable {
         this.classId = classId;
     }
 
-    public Integer getClassroomId() {
-        return classroomId;
+    public String getClassroomId() { return classroomId; }
+
+    public void setClassroomId(String classroomId) { this.classroomId = classroomId; }
+
+    public String getCourseName() {
+        return courseName;
     }
 
-    public void setClassroomId(Integer classroomId) {
-        this.classroomId = classroomId;
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
     }
 
-    public Date getCourseStartTime() {
-        return courseStartTime;
+    public String getTeacherId() {
+        return teacherId;
     }
 
-    public void setCourseStartTime(Date courseStartTime) {
-        this.courseStartTime = courseStartTime;
+    public void setTeacherId(String teacherId) {
+        this.teacherId = teacherId;
+    }
+
+    public Date getCourseDate() {
+        return courseDate;
+    }
+
+    public void setCourseDate(Date courseDate) {
+        this.courseDate = courseDate;
     }
 
     public String getCourseStartWeek() {
@@ -101,11 +117,19 @@ public class Course implements Serializable {
         this.courseStartWeek = courseStartWeek;
     }
 
-    public Date getCourseEndTime() {
+    public String getCourseStartTime() {
+        return courseStartTime;
+    }
+
+    public void setCourseStartTime(String courseStartTime) {
+        this.courseStartTime = courseStartTime;
+    }
+
+    public String getCourseEndTime() {
         return courseEndTime;
     }
 
-    public void setCourseEndTime(Date courseEndTime) {
+    public void setCourseEndTime(String courseEndTime) {
         this.courseEndTime = courseEndTime;
     }
 
@@ -133,19 +157,30 @@ public class Course implements Serializable {
         this.semester = semester;
     }
 
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+
     @Override
     public String toString() {
         return "Course{" +
                 "courseId=" + courseId +
-                ", courseName='" + courseName + '\'' +
                 ", classId=" + classId +
                 ", classroomId=" + classroomId +
+                ", courseName='" + courseName + '\'' +
+                ", teacherId='" + teacherId + '\'' +
+                ", courseDate=" + courseDate +
                 ", courseStartTime=" + courseStartTime +
                 ", courseStartWeek='" + courseStartWeek + '\'' +
                 ", courseEndTime=" + courseEndTime +
                 ", courseEndWeek='" + courseEndWeek + '\'' +
                 ", schoolYear='" + schoolYear + '\'' +
                 ", semester='" + semester + '\'' +
+                ", grade='" + grade + '\'' +
                 '}';
     }
 }

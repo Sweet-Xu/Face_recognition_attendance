@@ -6,32 +6,42 @@
           WARNING - @mbg.generated
         -->
         <result column="course_id" jdbcType="DECIMAL" property="courseId" />
-        <result column="course_name" jdbcType="VARCHAR" property="courseName" />
         <result column="class_id" jdbcType="DECIMAL" property="classId" />
-        <result column="classroom_id" jdbcType="DECIMAL" property="classroomId" />
-        <result column="course_start_time" jdbcType="DATE"  property="courseStartTime" />
+        <result column="classroom_id" jdbcType="VARCHAR" property="classroomId" />
+        <result column="course_name" jdbcType="VARCHAR" property="courseName" />
+        <result column="teacher_id" jdbcType="VARCHAR" property="teacherId" />
+        <result column="course_date" jdbcType="DATE"  property="courseDate" />
+        <result column="course_start_time" jdbcType="VARCHAR"  property="courseStartTime" />
+        <result column="course_end_time" jdbcType="VARCHAR"  property="courseEndTime" />
         <result column="course_start_week" jdbcType="VARCHAR" property="courseStartWeek" />
-        <result column="course_end_time" jdbcType="DATE"  property="courseEndTime" />
         <result column="course_end_week" jdbcType="VARCHAR" property="courseEndWeek" />
         <result column="school_year" jdbcType="VARCHAR"  property="schoolYear" />
         <result column="semester" jdbcType="VARCHAR"  property="semester" />
+        <result column="grade" jdbcType="VARCHAR"  property="grade" />
     </resultMap>
 
-<!--    <select id="findAllCourse" resultType="course" parameterType="course">-->
-<!--        select t.course_id,t.course_name ,t.teacher,t.address,t.course_date-->
-<!--        from t_course t-->
-<!--        where 1=1-->
-<!--        <if test="courseName != null and courseName != ''">-->
-<!--            AND t.course_name = #{courseName}-->
-<!--        </if>-->
-<!--        <if test="teacher != null and teacher != ''">-->
-<!--            AND t.teacher = #{teacher}-->
-<!--        </if>-->
-<!--        <if test="courseDate != null and courseDate != ''">-->
-<!--            AND t.course_date = #{courseDate}-->
-<!--        </if>-->
-<!--        order by t.course_id-->
+<!--    <select id="findALlTodayCourse" resultType="course" parameterType="course">-->
+<!--        select t.course_id,t.course_name,t.class_id,t.classroom_id,t.course_start_time,t.course_start_week,t.course_end_time-->
 <!--    </select>-->
+
+    <select id="findAllCourse" resultType="course" parameterType="course">
+        select t.course_id ,t.class_id,t.classroom_id,t.course_name,t.teacher_id,t.course_date,t.course_start_time,t.course_end_time,t.course_start_week,t.course_end_week,t.school_year,t.semester,t.grade
+        from t_course t
+        where 1=1
+        <if test="courseName != null and courseName != ''">
+            AND t.course_name = #{courseName}
+        </if>
+        <if test="classroomId != null and classroomId != ''">
+            AND t.classroom_id = #{classroomId}
+        </if>
+        <if test="courseDate != null ">
+            AND t.course_date = #{courseDate}
+        </if>
+        <if test="courseStartTime != null and courseStartTime != '' ">
+            AND t.course_start_time = #{courseStartTime}
+        </if>
+        order by t.course_id
+    </select>
 
 <!--    <select id="findByDateAndAddress" resultType="course" >-->
 <!--        select t.course_id,t.course_name ,t.teacher,t.address,t.course_date-->

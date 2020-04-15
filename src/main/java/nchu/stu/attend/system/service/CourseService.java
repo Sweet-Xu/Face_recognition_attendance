@@ -11,12 +11,18 @@ public interface CourseService extends IService<Course>{
     Course findById(Long courseId);
 
     List<Course> findAllCourse(Course course, QueryRequest request);
+    List<Course> findAllCourse(Course course);
 
-    void deleteCourse(String ids);
+    //查找当天所有课程
+
+    void deleteCourse(String courseId);
 
     void addCourse(Course course);
 
     void updateCourse(Course course);
+
+    List<Course> findAllTodayCourse();
+
 
 
 

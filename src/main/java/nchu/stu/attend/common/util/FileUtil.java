@@ -60,7 +60,8 @@ public class FileUtil {
         } else {
             boolean operateSign = false;
             String fileName = filename + ".xlsx";
-            fileName = makeFileName(fileName);            try {
+            fileName = makeFileName(fileName);
+            try {
                 File fileDir = new File("file");
                 if (!fileDir.exists())
                     fileDir.mkdir();

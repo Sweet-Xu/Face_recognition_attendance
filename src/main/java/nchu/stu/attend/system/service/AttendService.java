@@ -4,19 +4,28 @@ package nchu.stu.attend.system.service;
 import nchu.stu.attend.common.domain.QueryRequest;
 import nchu.stu.attend.common.service.IService;
 import nchu.stu.attend.system.domain.Attend;
+import nchu.stu.attend.system.domain.Course;
 
 import java.util.List;
 
 public interface AttendService extends IService<Attend> {
 
+    //查找所有考勤表记录
     List<Attend> findAllAttend(Attend attend,QueryRequest request);
 
+    //手动增加考勤表记录
     void addAttend(Attend attend);
-
-    void deleteAttend(String ids);
+    //删除考勤表记录
+    void deleteAttend(String attendId);
 
     Attend findById(Long attendId);
+    //更新考勤表记录
+    //void updateAttend(Attend attend);
 
-    void updateAttend(Attend attend);
+    //批量插入考勤表
+   void batchAddAttend();
+
+    //改变考勤表的状态
+//    void checkAttendStatus(String attendId);
 
 }

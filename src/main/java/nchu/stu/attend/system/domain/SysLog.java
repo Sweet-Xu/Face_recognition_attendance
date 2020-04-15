@@ -17,35 +17,35 @@ public class SysLog implements Serializable {
 	private Long id;
 
 	@Column(name = "USERNAME")
-	//@ExportConfig(value = "操作用户")
+	@ExportConfig(value = "操作用户")
 	private String username;
 
 	@Column(name = "OPERATION")
-	//@ExportConfig(value = "描述")
+	@ExportConfig(value = "描述")
 	private String operation;
 
 	@Column(name = "TIME")
-	//@ExportConfig(value = "耗时（毫秒）")
+	@ExportConfig(value = "耗时（毫秒）")
 	private Long time;
 
 	@Column(name = "METHOD")
-	//@ExportConfig(value = "操作方法")
+	@ExportConfig(value = "操作方法")
 	private String method;
 
 	@Column(name = "PARAMS")
-	//@ExportConfig(value = "参数")
+	@ExportConfig(value = "参数")
 	private String params;
 
 	@Column(name = "IP")
-//	@ExportConfig(value = "IP地址")
+ 	@ExportConfig(value = "IP地址")
 	private String ip;
 
 	@Column(name = "CREATE_TIME")
-//	@ExportConfig(value = "操作时间", convert = "c:cc.hep.common.util.poi.convert.TimeConvert")
+	@ExportConfig(value = "操作时间", convert = "c:cc.hep.common.util.poi.convert.TimeConvert")
 	private Date createTime;
 
 	@Column(name = "LOCATION")
-	//@ExportConfig(value = "地点")
+	@ExportConfig(value = "地点")
 	private String location;
 	
 	// 用于搜索条件中的时间字段

@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  * @author XuTian
@@ -32,6 +33,9 @@ public class LogAspect {
     @Autowired
     private LogService logService;
 
+    @Autowired
+    HttpServletRequest request;
+
 
     @Pointcut("@annotation(nchu.stu.attend.common.annotation.Log)")
     public void pointcut() {
@@ -45,16 +49,27 @@ public class LogAspect {
         // 执行方法
         result = point.proceed();
         // 获取request
-        HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
+        HttpServletRequest httpServletRequestequest = HttpContextUtils.getHttpServletRequest();
         // 设置IP地址
-        String ip = IPUtils.getIpAddr(request);
+        String ip = IPUtils.getIpAddr(httpServletRequestequest);
         // 执行时长(毫秒)
         long time = System.currentTimeMillis() - beginTime;
+        //获取session
+        HttpSession session   =  request.getSession();
         if (hepProperties.isOpenAopLog()) {
             // 保存日志
-            User user = (User) SecurityUtils.getSubject().getPrincipal();
             SysLog log = new SysLog();
-            log.setUsername(user.getUsername());
+//            if(/*SecurityUtils.getSubject() != null*/false) {
+//                User user = (User) SecurityUtils.getSubject().getPrincipal();
+//                log.setUsername(user.getUsername());
+//            }
+            if(session.getAttribute("currentUser")!=null){
+                User user = (User)session.getAttribute("currentUser");
+                log.setUsername(user.getUsername());
+            }
+            else {
+                log.setUsername("");
+            }
             log.setIp(ip);
             log.setTime(time);
             logService.saveLog(point, log);

@@ -7,7 +7,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * @author XuTian
@@ -23,25 +22,15 @@ public class Attend implements Serializable {
     @Column(name = "attend_id")
     private Long attendId;
 
+    @Column(name = "rule_id")
+    private Integer ruleId;
+
     @Column(name = "course_id")
     private Long courseId;
 
     @Column(name = "classroom_id")
   //  @ExportConfig(value = "教室编号")
-    private Long classroomId;
-
-    @Column(name = "real_arrive_num")
-    private Integer realArriveNum;
-
-    @Column(name = "should_arrive_num")
-    private Integer shouldArriveNum;
-
-
-    @Column(name = "attend_start_time")
-    private Date attendStartTime;
-
-    @Column(name = "attend_end_time")
-    private Date attendEndTime;
+    private String classroomId;
 
     @Column(name = "describes")
     private String describes;
@@ -57,6 +46,14 @@ public class Attend implements Serializable {
         this.attendId = attendId;
     }
 
+    public Integer getRuleId() {
+        return ruleId;
+    }
+
+    public void setRuleId(Integer ruleId) {
+        this.ruleId = ruleId;
+    }
+
     public Long getCourseId() {
         return courseId;
     }
@@ -65,44 +62,12 @@ public class Attend implements Serializable {
         this.courseId = courseId;
     }
 
-    public Long getClassroomId() {
+    public String getClassroomId() {
         return classroomId;
     }
 
-    public void setClassroomId(Long classroomId) {
+    public void setClassroomId(String classroomId) {
         this.classroomId = classroomId;
-    }
-
-    public Integer getRealArriveNum() {
-        return realArriveNum;
-    }
-
-    public void setRealArriveNum(Integer realArriveNum) {
-        this.realArriveNum = realArriveNum;
-    }
-
-    public Integer getShouldArriveNum() {
-        return shouldArriveNum;
-    }
-
-    public void setShouldArriveNum(Integer shouldArriveNum) {
-        this.shouldArriveNum = shouldArriveNum;
-    }
-
-    public Date getAttendStartTime() {
-        return attendStartTime;
-    }
-
-    public void setAttendStartTime(Date attendStartTime) {
-        this.attendStartTime = attendStartTime;
-    }
-
-    public Date getAttendEndTime() {
-        return attendEndTime;
-    }
-
-    public void setAttendEndTime(Date attendEndTime) {
-        this.attendEndTime = attendEndTime;
     }
 
     public String getDescribes() {
@@ -125,12 +90,9 @@ public class Attend implements Serializable {
     public String toString() {
         return "Attend{" +
                 "attendId=" + attendId +
+                ", ruleId=" + ruleId +
                 ", courseId=" + courseId +
                 ", classroomId=" + classroomId +
-                ", realArriveNum=" + realArriveNum +
-                ", shouldArriveNum=" + shouldArriveNum +
-                ", attendStartTime=" + attendStartTime +
-                ", attendEndTime=" + attendEndTime +
                 ", describes='" + describes + '\'' +
                 ", attendStatus='" + attendStatus + '\'' +
                 '}';

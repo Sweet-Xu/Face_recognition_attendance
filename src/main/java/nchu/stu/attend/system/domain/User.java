@@ -3,6 +3,7 @@ package nchu.stu.attend.system.domain;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -11,6 +12,7 @@ import java.util.Date;
  * @description
  * @date 2020/2/24
  */
+@Table(name = "t_user")
 public class User implements Serializable {
     private static final long serialVersionUID = -4852732617765810959L;
 
@@ -21,7 +23,7 @@ public class User implements Serializable {
 
     public static final String STATUS_LOCK = "0";
 
-    public static final String DEFAULT_AVATAR = "default.jpg";
+ //   public static final String DEFAULT_AVATAR = "default.jpg";
 
     /**
      * 性别
@@ -44,17 +46,8 @@ public class User implements Serializable {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "gender")
-    private String gender;
-
-    @Column(name = "college_name")
-    private String collegeName;
-
-    @Column(name = "class_id")
-    private Integer classId;
-
-    @Column(name = "email")
-    private String userEmail;
+    @Column(name = "user_type")
+    private String userType;
 
     @Column(name = "user_create_time")
     private Date userCreateTime;
@@ -62,13 +55,9 @@ public class User implements Serializable {
     @Column(name = "last_login_time")
     private Date lastLoginTime;
 
-    //用户类型
-    @Column(name = "user_type")
-    private String userType;
-
     @Column(name = "user_status")
     //@ExportConfig(value = "状态", convert = "s:0=锁定,1=有效")
-    private String status = STATUS_VALID;
+    private String userStatus;
 
     public Long getUserId() {
         return userId;
@@ -94,36 +83,12 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public String getGender() {
-        return gender;
+    public String getUserType() {
+        return userType;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public String getCollegeName() {
-        return collegeName;
-    }
-
-    public void setCollegeName(String collegeName) {
-        this.collegeName = collegeName;
-    }
-
-    public Integer getClassId() {
-        return classId;
-    }
-
-    public void setClassId(Integer classId) {
-        this.classId = classId;
-    }
-
-    public String getUserEmail() {
-        return userEmail;
-    }
-
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
+    public void setUserType(String userType) {
+        this.userType = userType;
     }
 
     public Date getUserCreateTime() {
@@ -142,20 +107,12 @@ public class User implements Serializable {
         this.lastLoginTime = lastLoginTime;
     }
 
-    public String getStatus() {
-        return status;
+    public String getUserStatus() {
+        return userStatus;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getUserType() {
-        return userType;
-    }
-
-    public void setUserType(String userType) {
-        this.userType = userType;
+    public void setUserStatus(String userStatus) {
+        this.userStatus = userStatus;
     }
 
     @Override
@@ -164,14 +121,10 @@ public class User implements Serializable {
                 "userId=" + userId +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", gender='" + gender + '\'' +
-                ", collegeName='" + collegeName + '\'' +
-                ", classId=" + classId +
-                ", userEmail='" + userEmail + '\'' +
+                ", userType='" + userType + '\'' +
                 ", userCreateTime=" + userCreateTime +
                 ", lastLoginTime=" + lastLoginTime +
-                ", userType='" + userType + '\'' +
-                ", status='" + status + '\'' +
+                ", userStatus='" + userStatus + '\'' +
                 '}';
     }
 }

@@ -2,6 +2,7 @@ package nchu.stu.attend.system.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 
 /**
@@ -9,44 +10,26 @@ import java.io.Serializable;
  * @description 教室类
  * @date 2020/3/16
  */
+@Table(name = "t_classroom")
 public class Classroom implements Serializable {
     private static final Long serialVersionUID = -4852732617765810959L;
 
     @Id
     @Column(name = "classroom_id")
-    private Integer classroomId;
+    private String classroomId;
 
-    @Column(name = "classroom_name")
-    private String classroomName;
-
-    @Column(name = "course_id")
-    private Long courseId;
+//    @Column(name = "classroom_name")
+//    private String classroomName;
 
     @Column(name = "describes")
     private String describes;
 
-    public Integer getClassroomId() {
+    public String getClassroomId() {
         return classroomId;
     }
 
-    public void setClassroomId(Integer classroomId) {
+    public void setClassroomId(String classroomId) {
         this.classroomId = classroomId;
-    }
-
-    public String getClassroomName() {
-        return classroomName;
-    }
-
-    public void setClassroomName(String classroomName) {
-        this.classroomName = classroomName;
-    }
-
-    public Long getCourseId() {
-        return courseId;
-    }
-
-    public void setCourseId(Long courseId) {
-        this.courseId = courseId;
     }
 
     public String getDescribes() {
@@ -60,9 +43,7 @@ public class Classroom implements Serializable {
     @Override
     public String toString() {
         return "Classroom{" +
-                "classroomId=" + classroomId +
-                ", classroomName='" + classroomName + '\'' +
-                ", courseId=" + courseId +
+                "classroomId='" + classroomId + '\'' +
                 ", describes='" + describes + '\'' +
                 '}';
     }

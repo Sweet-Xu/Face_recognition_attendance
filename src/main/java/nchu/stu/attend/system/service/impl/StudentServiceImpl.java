@@ -3,8 +3,11 @@ package nchu.stu.attend.system.service.impl;
 import nchu.stu.attend.common.domain.QueryRequest;
 import nchu.stu.attend.common.service.impl.BaseService;
 import nchu.stu.attend.system.dao.StudentMapper;
+import nchu.stu.attend.system.domain.dto.StudentOutputDto;
 import nchu.stu.attend.system.domain.Student;
+import nchu.stu.attend.system.domain.User;
 import nchu.stu.attend.system.service.StudentService;
+import nchu.stu.attend.system.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +16,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -29,38 +31,112 @@ public class StudentServiceImpl extends BaseService<Student> implements StudentS
     @Autowired
     private StudentMapper studentMapper;
 
+    @Autowired
+    private UserService userService;
+
     @Override
-    public List<Student> findAllStudent(Student student, QueryRequest request){
-        try{
-            return studentMapper.findAllStudent(student);
-        }catch (Exception e) {
-            log.error("error", e);
-            return new ArrayList<>();
+    public List<StudentOutputDto> findAllStudent(Student student, QueryRequest request){
+        List<StudentOutputDto> dtos= new ArrayList<>();
+        List<Student> students = this.studentMapper.findAllStudent(student);
+        for (Student t: students) {
+            User u = userService.findById(t.getUserId());
+            StudentOutputDto dto = new StudentOutputDto();
+            if(u!=null) {
+                dto.setUserId(u.getUserId());
+                dto.setPassword(u.getPassword());
+                dto.setUsername(u.getUsername());
+                dto.setUserType(u.getUserType());
+                dto.setUserCreateTime(u.getUserCreateTime());
+                dto.setLastLoginTime(u.getLastLoginTime());
+                dto.setUserStatus(u.getUserStatus());
+            }
+            dto.setStudentId(t.getStudentId());
+            dto.setClassId(t.getClassId());
+            dto.setStudentName(t.getStudentName());
+            dto.setStudentGender(t.getStudentGender());
+            dto.setStudentEmail(t.getStudentEmail());
+            dto.setStudentQQ(t.getStudentQQ());
+            dtos.add(dto);
         }
+        return dtos;
+    }
+
+    @Override
+    public List<Student> findAllStudent(Student student) {
+        return this.studentMapper.select(student);
+    }
+
+    @Override
+    public void addStudent(StudentOutputDto dto){
+        User user = new User();
+        Student student= new Student();
+        user.setUserId(dto.getUserId());
+        user.setUsername(dto.getUsername());
+        user.setPassword(dto.getPassword());
+        user.setUserType(dto.getUserType());
+        user.setUserCreateTime(dto.getUserCreateTime());
+        user.setLastLoginTime(dto.getLastLoginTime());
+        user.setUserStatus(dto.getUserStatus());
+
+        student.setStudentId(dto.getStudentId());
+        student.setClassId(dto.getClassId());
+        student.setStudentName(dto.getStudentName());
+        student.setStudentGender(dto.getStudentGender());
+        student.setStudentEmail(dto.getStudentEmail());
+        student.setStudentQQ(dto.getStudentQQ());
+        student.setUserId(dto.getUserId());
+        long userId = userService.addUser(user);
+        student.setUserId(userId);
+        this.save(student);
     }
 
     @Override
     public void addStudent(Student student){
-        try{
-            this.save(student);
-        }catch (Exception e){
-            log.error("error",e);
-        }
+        User user = new User();
+        user.setUsername(student.getStudentId());
+        user.setPassword(student.getStudentId());
+        user.setUserType("2");
+        user.setUserStatus("1");
+        long userId = userService.addUser(user);
+        student.setUserId(userId);
+        this.save(student);
     }
 
     @Override
-    public void updateStudent(Student student){
-        try{
-            this.updateNotNull(student);
-        }catch (Exception e){
-            log.error("error",e);
-        }
+    public void updateStudent(StudentOutputDto dto){
+        User user = new User();
+        Student student = new Student();
+        user.setUserId(dto.getUserId());
+        user.setUsername(dto.getUsername());
+        user.setPassword(dto.getPassword());
+        user.setUserType(dto.getUserType());
+        user.setUserCreateTime(dto.getUserCreateTime());
+        user.setLastLoginTime(dto.getLastLoginTime());
+        user.setUserStatus(dto.getUserStatus());
+        System.out.println(user);
+        student.setStudentId(dto.getStudentId());
+        student.setClassId(dto.getClassId());
+        student.setStudentGender(dto.getStudentGender());
+        student.setStudentName(dto.getStudentName());
+        student.setStudentEmail(dto.getStudentEmail());
+        student.setStudentQQ(dto.getStudentQQ());
+        student.setUserId(dto.getUserId());
+        //根据主键更新
+        userService.updateUser(user);
+        this.updateNotNull(student);
     }
 
     @Override
-    public void deleteStudent(String ids){
-        List<String> list = Arrays.asList(ids.split(","));
-        this.batchDelete(list,"stuId",Student.class);
+    public void updateStudent(Student student) {
+        this.updateNotNull(student);
+    }
+
+    @Override
+    public void deleteStudent(String studentId){
+        System.out.println(studentId);
+        Student student = studentMapper.selectByPrimaryKey(studentId);
+        this.delete(studentId);
+        userService.deleteUsers(student.getUserId());
     }
 
     @Override
