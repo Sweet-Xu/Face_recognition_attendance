@@ -39,6 +39,9 @@ public class AttendItem implements Serializable {
     @Column(name = "attend_result")
     private String attendResult;
 
+    @Column(name = "attend_name")
+    private String attendName;
+
     public Long getAttendItemId() {
         return attendItemId;
     }
@@ -77,6 +80,14 @@ public class AttendItem implements Serializable {
 
     public void setAttendResult(String attendResult) {
         this.attendResult = attendResult;
+    }
+
+    public String getAttendName() {
+        return attendName;
+    }
+
+    public void setAttendName(String attendName) {
+        this.attendName = attendName;
     }
 
     @Override

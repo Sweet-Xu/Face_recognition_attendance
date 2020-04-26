@@ -12,6 +12,7 @@
 	  <result column="user_create_time" jdbcType="TIMESTAMP" property="userCreateTime" />
 	  <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime" />
 	  <result column="user_status" jdbcType="VARCHAR" property="userStatus" />
+	  <result column="role" jdbcType="DECIMAL" property="role" />
   </resultMap>
   
 <!--  <select id="findUserWithDept" resultType="user" parameterType="user">-->
@@ -35,7 +36,7 @@
 <!--  </select>-->
 
 	<select id="findAllUser" resultType="user" parameterType="user">
-		select u.user_id ,u.username ,u.user_type ,u.user_create_time ,u.last_login_time,u.user_status
+		select u.user_id ,u.username ,u.user_type ,u.user_create_time ,u.last_login_time,u.user_status,u.role
 		from t_user u
 		where 1=1
 		<if test="username != null and username != ''">

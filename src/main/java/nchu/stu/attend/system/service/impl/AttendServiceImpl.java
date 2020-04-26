@@ -6,12 +6,11 @@ import nchu.stu.attend.common.service.impl.BaseService;
 import nchu.stu.attend.common.util.FileUtil;
 import nchu.stu.attend.system.dao.AttendMapper;
 import nchu.stu.attend.system.dao.CourseMapper;
-import nchu.stu.attend.system.domain.Attend;
-import nchu.stu.attend.system.domain.AttendRule;
-import nchu.stu.attend.system.domain.Course;
-import nchu.stu.attend.system.domain.Student;
+import nchu.stu.attend.system.domain.*;
+import nchu.stu.attend.system.domain.dto.AttendOutputDto;
 import nchu.stu.attend.system.service.AttendRuleService;
 import nchu.stu.attend.system.service.AttendService;
+import nchu.stu.attend.system.service.ClassesService;
 import nchu.stu.attend.system.service.CourseService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +26,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+
+import static java.lang.Math.ceil;
 
 /**
  * @author XuTian
@@ -47,14 +48,64 @@ public class AttendServiceImpl extends BaseService<Attend> implements AttendServ
     @Autowired
     private CourseService courseService;
 
+    @Autowired
+    private ClassesService classesService;
+
+
+//    @Override
+//    public List<Attend> findAllAttend(Attend attend, QueryRequest request) {
+//        try {
+//            return attendMapper.findAllAttend(attend);
+//        } catch (Exception e) {
+//            log.error("error", e);
+//            return new ArrayList<>();
+//        }
+//    }
+
     @Override
-    public List<Attend> findAllAttend(Attend attend, QueryRequest request) {
-        try{
-            return attendMapper.findAllAttend(attend);
-        }catch (Exception e) {
-            log.error("error", e);
-            return new ArrayList<>();
+    public List<AttendOutputDto> findAllAttend(Attend attend) {
+        List<AttendOutputDto> dtos = new ArrayList<>();
+        List<Attend> attends = this.attendMapper.select(attend);
+        for (Attend t : attends) {
+            AttendOutputDto dto = new AttendOutputDto();
+            AttendRule rule = attendRuleService.findById(t.getRuleId());
+            Course course = courseService.findById(t.getCourseId());
+            dto.setClassId(t.getClassId());
+            dto.setCourseName(course.getCourseName());
+            dto.setRuleName(rule.getRuleName());
+            dto.setId(String.valueOf(t.getAttendId()));
+            dto.setTitle(t.getAttendName());
+            dto.setOwner(t.getManager());
+            dto.setStatus("active");
+            dto.setClassroomId(t.getClassroomId());
+            dto.setAvatar("https://gw.alipayobjects.com/zos/rmsportal/WdGqmHpayyMjiEhcKoVE.png");
+            dto.setCover("https://gw.alipayobjects.com/zos/rmsportal/WdGqmHpayyMjiEhcKoVE.png");
+            //Logo才是有用的图标显示
+            dto.setLogo("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1587198205593&di=95c2e9a0d158093659f7a93a090bced4&imgtype=0&src=http%3A%2F%2Fpic.51yuansu.com%2Fpic2%2Fcover%2F00%2F45%2F65%2F5814f401ea5a9_610.jpg");
+            dto.setCreatedAt(t.getAttendCreateTime());
+            dto.setPercent((int)Math.ceil(Math.random() * 50) + 50);
+            dtos.add(dto);
         }
+        return dtos;
+    }
+
+    @Override
+    public List<AttendOutputDto> findAllProgressAttend(Attend attend) {
+        List<AttendOutputDto> dtos = new ArrayList<>();
+        return dtos;
+    }
+
+
+    @Override
+    public List<AttendOutputDto> updateAttend(AttendOutputDto dto){
+        Attend attend  = new Attend();
+        attend.setAttendId(Long.valueOf(dto.getId()));
+        attend.setAttendName(dto.getTitle());
+        attend.setManager(dto.getOwner());
+        attend.setAttendCreateTime(dto.getCreatedAt());
+        attend.setClassroomId(dto.getClassroomId());
+        this.updateNotNull(attend);
+        return this.findAllAttend(new Attend());
     }
 
     //增加考勤信息
@@ -64,7 +115,20 @@ public class AttendServiceImpl extends BaseService<Attend> implements AttendServ
     }
 
     @Override
-    public void deleteAttend(String attendId) {
+    public void addAttend(AttendOutputDto dto){
+        Attend attend = new Attend();
+        attend.setClassId(dto.getClassId());
+        attend.setClassroomId(dto.getClassroomId());
+        attend.setCourseId(Long.valueOf(dto.getCourseName()));
+        attend.setRuleId(Integer.valueOf(dto.getRuleName()));
+        attend.setAttendName(dto.getTitle());
+        attend.setAttendCreateTime(dto.getCreatedAt());
+        attend.setManager(dto.getOwner());
+        this.save(attend);
+    }
+
+    @Override
+    public void deleteAttend(Long attendId) {
         this.delete(attendId);
     }
 
@@ -103,7 +167,5 @@ public class AttendServiceImpl extends BaseService<Attend> implements AttendServ
 //        }
 
     }
-
-
 
 }

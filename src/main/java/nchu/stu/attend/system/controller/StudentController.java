@@ -34,9 +34,10 @@ public class StudentController extends BaseController {
 //    @GetMapping("student")
 //    public String studentIndex(){return "system/student/student";}
 
-    @GetMapping("api/student")
+    @GetMapping("/api/student")
     @ResponseBody
     public Map<String ,Object> studentList(QueryRequest request, Student student) {
+        System.out.println(student);
         int total = studentService.findAllStudent(student).size();
         PageHelper.startPage(request.getCurrent(),request.getPageSize());
         Map<String,Object> map = ResponseUtil.pageResult(this.studentService.findAllStudent(student),total,true,request.getPageSize(),request.getCurrent());
@@ -46,7 +47,7 @@ public class StudentController extends BaseController {
 
    //@Log("增加学生信息")
   //  @RequiresPermissions("student:add")
-    @PostMapping("api/student")
+    @PostMapping("/api/student")
     @ResponseBody
     public ResponseBo addStudentUser(@RequestBody Student student){
         try {
@@ -60,7 +61,7 @@ public class StudentController extends BaseController {
     
   //  @Log("更新学生信息")
    // @RequiresPermissions("student:update")
-    @PutMapping("api/student")
+    @PutMapping("/api/student")
     @ResponseBody
     public ResponseBo updateStudent(@RequestBody Student student){
         try{
@@ -74,7 +75,7 @@ public class StudentController extends BaseController {
 
    // @Log("删除学生信息")
    // @RequiresPermissions("student:delete")
-    @DeleteMapping("api/student")
+    @DeleteMapping("/api/student")
     @ResponseBody
     public ResponseBo deleteStudent(String studentId){
         try{

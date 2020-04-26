@@ -5,18 +5,27 @@ import nchu.stu.attend.common.domain.QueryRequest;
 import nchu.stu.attend.common.service.IService;
 import nchu.stu.attend.system.domain.Attend;
 import nchu.stu.attend.system.domain.Course;
+import nchu.stu.attend.system.domain.dto.AttendOutputDto;
 
 import java.util.List;
 
 public interface AttendService extends IService<Attend> {
 
     //查找所有考勤表记录
-    List<Attend> findAllAttend(Attend attend,QueryRequest request);
+//    List<Attend> findAllAttend(Attend attend,QueryRequest request);
+
+    List<AttendOutputDto> findAllAttend(Attend attend);
+
+    List<AttendOutputDto> findAllProgressAttend(Attend attend);
+
+    List<AttendOutputDto> updateAttend(AttendOutputDto attend);
 
     //手动增加考勤表记录
     void addAttend(Attend attend);
+
+    void addAttend(AttendOutputDto dto);
     //删除考勤表记录
-    void deleteAttend(String attendId);
+    void deleteAttend(Long attendId);
 
     Attend findById(Long attendId);
     //更新考勤表记录

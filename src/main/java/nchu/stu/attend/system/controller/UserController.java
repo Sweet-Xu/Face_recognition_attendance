@@ -6,7 +6,6 @@ import nchu.stu.attend.common.controller.BaseController;
 import nchu.stu.attend.common.domain.QueryRequest;
 import nchu.stu.attend.common.domain.ResponseBo;
 import nchu.stu.attend.common.dto.CurrentUserDto;
-import nchu.stu.attend.common.util.FileUtil;
 import nchu.stu.attend.common.util.MD5Utils;
 import nchu.stu.attend.common.util.ResponseUtil;
 import nchu.stu.attend.system.domain.User;
@@ -15,11 +14,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -45,6 +42,15 @@ public class UserController extends BaseController {
         User user = (User) session.getAttribute("currentUser");
         dto.setUserid(user.getUserId());
         dto.setName(user.getUsername());
+        if(user.getRole()==0) {
+            dto.setRole("admin");
+        }else if(user.getRole()==1){
+            dto.setRole("user");
+        }else if(user.getRole()==2){
+            dto.setRole("guest");
+        }else{
+            dto.setRole("");
+        }
         return dto;
     }
 
@@ -82,7 +88,7 @@ public class UserController extends BaseController {
     }
 
     @Log("获取用户信息")
-    @GetMapping("api/user")
+    @GetMapping("/api/user")
    // @RequiresPermissions("user:list")
     @ResponseBody
     public Map<String, Object> userList(QueryRequest request,User user ) {
@@ -171,7 +177,7 @@ public class UserController extends BaseController {
 //    }
 
     @Log("增加用户信息")
-    @PostMapping("api/user")
+    @PostMapping("/api/user")
     @ResponseBody
     public ResponseBo addUser(@RequestBody User user){
         try {
@@ -185,7 +191,7 @@ public class UserController extends BaseController {
 
     @Log("修改用户")
     //   @RequiresPermissions("user:update")
-    @PutMapping("api/user")
+    @PutMapping("/api/user")
     @ResponseBody
     public ResponseBo updateUser(@RequestBody User user) {
         try {
@@ -203,7 +209,7 @@ public class UserController extends BaseController {
 
     @Log("删除用户")
     // @RequiresPermissions("user:delete")
-    @DeleteMapping("api/user")
+    @DeleteMapping("/api/user")
     @ResponseBody
     public ResponseBo deleteUsers(Long userId) {
         try {

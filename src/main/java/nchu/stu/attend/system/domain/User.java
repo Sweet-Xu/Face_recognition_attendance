@@ -59,6 +59,9 @@ public class User implements Serializable {
     //@ExportConfig(value = "状态", convert = "s:0=锁定,1=有效")
     private String userStatus;
 
+    @Column(name = "role")
+    private Integer role;
+
     public Long getUserId() {
         return userId;
     }
@@ -115,6 +118,14 @@ public class User implements Serializable {
         this.userStatus = userStatus;
     }
 
+    public Integer getRole() {
+        return role;
+    }
+
+    public void setRole(Integer role) {
+        this.role = role;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -125,6 +136,7 @@ public class User implements Serializable {
                 ", userCreateTime=" + userCreateTime +
                 ", lastLoginTime=" + lastLoginTime +
                 ", userStatus='" + userStatus + '\'' +
+                ", role='" + role + '\'' +
                 '}';
     }
 }

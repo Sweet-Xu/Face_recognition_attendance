@@ -34,7 +34,7 @@ public class LogController extends BaseController {
 //        return "system/log/log";
 //    }
 
-    @GetMapping("api/log")
+    @GetMapping("/api/log")
     @ResponseBody
     public Map<String,Object> logList(QueryRequest request, SysLog log) {
         int total = logService.findAllLogs(log).size();
@@ -68,7 +68,7 @@ public class LogController extends BaseController {
     }
 
    // @RequiresPermissions("log:delete")
-    @DeleteMapping("api/log")
+    @DeleteMapping("/api/log")
     @ResponseBody
     public ResponseBo deleteLogss(String logId) {
         try {

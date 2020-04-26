@@ -30,7 +30,7 @@ public class ClassesController extends BaseController {
     @Autowired
     private ClassesService classesService;
 
-    @GetMapping("api/classes")
+    @GetMapping("/api/classes")
     @ResponseBody
     public Map<String ,Object> classesList(QueryRequest request, Classes classes)
     {
@@ -43,7 +43,7 @@ public class ClassesController extends BaseController {
     
     //@Log("增加班级信息")
     //  @RequiresPermissions("classes:add")
-    @PostMapping("api/classes")
+    @PostMapping("/api/classes")
     @ResponseBody
     public ResponseBo addClasses(@RequestBody Classes classes){
         try {
@@ -70,7 +70,7 @@ public class ClassesController extends BaseController {
 
     //  @Log("更新班级信息")
     // @RequiresPermissions("classes:update")
-    @PutMapping("api/classes")
+    @PutMapping("/api/classes")
     @ResponseBody
     public ResponseBo updateClasses(@RequestBody Classes classes){
         try{
@@ -84,7 +84,7 @@ public class ClassesController extends BaseController {
 
     // @Log("删除班级信息")
     // @RequiresPermissions("classes:delete")
-    @DeleteMapping("api/classes")
+    @DeleteMapping("/api/classes")
     @ResponseBody
     public ResponseBo deleteClasses(String classId){
         try{

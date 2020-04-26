@@ -7,6 +7,7 @@ import nchu.stu.attend.common.domain.ResponseBo;
 import nchu.stu.attend.common.util.FileUtil;
 import nchu.stu.attend.common.util.ResponseUtil;
 import nchu.stu.attend.system.domain.AttendItem;
+import nchu.stu.attend.system.domain.User;
 import nchu.stu.attend.system.service.AttendItemService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
@@ -30,9 +32,14 @@ public class AttendItemController extends BaseController {
     @Autowired
     private AttendItemService attendItemService;
 
-    @GetMapping("api/attendItem")
+    @GetMapping("/api/attendItem")
     @ResponseBody
-    public Map<String ,Object> attendItemList(QueryRequest request, AttendItem attendItem){
+    public Map<String ,Object> attendItemList(QueryRequest request, AttendItem attendItem, HttpSession session){
+        User user =(User)session.getAttribute("currentUser");
+        System.out.println(user.getRole());
+        if(user.getRole()==2) {
+            attendItem.setStudentId(user.getUsername());
+        }
         int total = attendItemService.findAllAttendItem(attendItem).size();
         PageHelper.startPage(request.getCurrent(),request.getPageSize());
         Map<String,Object> map = ResponseUtil.pageResult(this.attendItemService.findAllAttendItem(attendItem),total,true,request.getPageSize(),request.getCurrent());
@@ -41,7 +48,7 @@ public class AttendItemController extends BaseController {
 
     //@Log("增加考勤明细信息")
     //  @RequiresPermissions("attendItem:add")
-    @PostMapping("api/attendItem")
+    @PostMapping("/api/attendItem")
     @ResponseBody
     public ResponseBo addAttendItem(@RequestBody AttendItem attendItem){
         try {
@@ -68,7 +75,7 @@ public class AttendItemController extends BaseController {
 
     //  @Log("更新考勤明细信息")
     // @RequiresPermissions("attendItem:update")
-    @PutMapping("api/attendItem")
+    @PutMapping("/api/attendItem")
     @ResponseBody
     public ResponseBo updateAttendItem(@RequestBody AttendItem attendItem){
         try{
@@ -83,7 +90,7 @@ public class AttendItemController extends BaseController {
 
     // @Log("删除考勤明细信息")
     // @RequiresPermissions("attendItem:delete")
-    @DeleteMapping("api/attendItem")
+    @DeleteMapping("/api/attendItem")
     @ResponseBody
     public ResponseBo deleteAttendItem(Integer attendItemId){
         try{
@@ -94,6 +101,7 @@ public class AttendItemController extends BaseController {
             return ResponseBo.error("删除考勤明细信息失败，请联系网站管理员！");
         }
     }
+
 
     @GetMapping("attendItem/excel")
     @ResponseBody

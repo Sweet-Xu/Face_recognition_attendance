@@ -6,11 +6,15 @@
           WARNING - @mbg.generated
         -->
         <result column="attend_id" jdbcType="DECIMAL" property="attendId" />
+        <result column="attend_name" jdbcType="VARCHAR" property="attendName" />
         <result column="rule_id" jdbcType="DECIMAL" property="ruleId" />
         <result column="course_id" jdbcType="DECIMAL" property="courseId" />
         <result column="classroom_id" jdbcType="DECIMAL" property="classroomId" />
         <result column="describes" jdbcType="VARCHAR" property="describes" />
         <result column="attend_status" jdbcType="VARCHAR"  property="attendStatus" />
+        <result column="manager" jdbcType="VARCHAR"  property="manager" />
+        <result column="attend_create_time" jdbcType="DATE"  property="attendCreateTime" />
+        <result column="class_id" jdbcType="DECIMAL" property="classId" />
     </resultMap>
 
 <!--    &lt;!&ndash;根据学号，班级，姓名，课程名，任课教师，考勤结果自由组合来查询考勤结果&ndash;&gt;-->
@@ -39,13 +43,10 @@
 <!--        order by t.attend_id-->
 <!--    </select>-->
 
-
         <select id="findAllAttend" resultType="attend" parameterType="attend">
-            select t.attend_id,t.rule_id ,t.course_id,t.classroom_id,t.describes,t.attend_status
+            select t.attend_id,t.attend_name,t.rule_id ,t.course_id,t.classroom_id,t.describes,t.attend_status,t.manager,t.attend_create_time,t.class_id
             from t_attend t
             order by t.attend_id
         </select>
-
-
 
 </mapper>
