@@ -12,11 +12,12 @@ import java.util.List;
 public interface AttendService extends IService<Attend> {
 
     //查找所有考勤表记录
-//    List<Attend> findAllAttend(Attend attend,QueryRequest request);
+   List<Attend> findAttend(Attend attend);
 
     List<AttendOutputDto> findAllAttend(Attend attend);
 
-    List<AttendOutputDto> findAllProgressAttend(Attend attend);
+    //查找所有进行时的考勤表
+    List<AttendOutputDto> findAllProgressAttend();
 
     List<AttendOutputDto> updateAttend(AttendOutputDto attend);
 
@@ -36,5 +37,7 @@ public interface AttendService extends IService<Attend> {
 
     //改变考勤表的状态
 //    void checkAttendStatus(String attendId);
+
+
 
 }

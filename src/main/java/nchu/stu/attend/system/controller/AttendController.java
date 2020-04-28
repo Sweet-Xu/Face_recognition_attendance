@@ -49,9 +49,10 @@ public class AttendController extends BaseController {
         return this.attendService.findAllAttend(attend);
     }
 
-    public List<AttendOutputDto> attendProgressList(Attend attend){
-        System.out.println("工作台传的："+attend);
-        return this.attendService.findAllProgressAttend(attend);
+    @GetMapping("/api/attend/progressList")
+    @ResponseBody
+    public List<AttendOutputDto> attendProgressList(){
+        return this.attendService.findAllProgressAttend();
     }
 
     //@Log("增加考勤信息")

@@ -28,6 +28,9 @@ public class AttendItem implements Serializable {
     @Column(name = "student_id")
     private String studentId;
 
+    @Column(name = "student_name")
+    private String studentName;
+
 //    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 //    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "attend_time")
@@ -41,6 +44,25 @@ public class AttendItem implements Serializable {
 
     @Column(name = "attend_name")
     private String attendName;
+
+    @Column(name = "check_type")
+    private String checkType;
+
+    public String getCheckType() {
+        return checkType;
+    }
+
+    public void setCheckType(String checkType) {
+        this.checkType = checkType;
+    }
+
+    public String getStudentName() {
+        return studentName;
+    }
+
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
+    }
 
     public Long getAttendItemId() {
         return attendItemId;

@@ -5,6 +5,7 @@ import nchu.stu.attend.common.service.IService;
 import nchu.stu.attend.system.domain.AttendItem;
 
 import java.util.List;
+import java.util.Map;
 
 public interface AttendItemService extends IService<AttendItem> {
 
@@ -14,4 +15,5 @@ public interface AttendItemService extends IService<AttendItem> {
     void updateAttendItem(AttendItem attendItem);
     void deleteAttendItem(Integer id);
     AttendItem findById(Integer attendItemId);
+    Map<String,Object> findAllAttendDetail();
 }

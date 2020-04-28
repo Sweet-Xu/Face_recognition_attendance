@@ -27,7 +27,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import static java.lang.Math.ceil;
 
 /**
  * @author XuTian
@@ -52,15 +51,15 @@ public class AttendServiceImpl extends BaseService<Attend> implements AttendServ
     private ClassesService classesService;
 
 
-//    @Override
-//    public List<Attend> findAllAttend(Attend attend, QueryRequest request) {
-//        try {
-//            return attendMapper.findAllAttend(attend);
-//        } catch (Exception e) {
-//            log.error("error", e);
-//            return new ArrayList<>();
-//        }
-//    }
+    @Override
+    public List<Attend> findAttend(Attend attend) {
+        try {
+            return attendMapper.findAllAttend(attend);
+        } catch (Exception e) {
+            log.error("error", e);
+            return new ArrayList<>();
+        }
+    }
 
     @Override
     public List<AttendOutputDto> findAllAttend(Attend attend) {
@@ -90,11 +89,32 @@ public class AttendServiceImpl extends BaseService<Attend> implements AttendServ
     }
 
     @Override
-    public List<AttendOutputDto> findAllProgressAttend(Attend attend) {
+    public List<AttendOutputDto> findAllProgressAttend() {
+        String logos[]={ "https://gw.alipayobjects.com/zos/rmsportal/WdGqmHpayyMjiEhcKoVE.png", // Alipay
+                "https://gw.alipayobjects.com/zos/rmsportal/zOsKZmFRdUtvpqCImOVY.png", // Angular
+                "https://gw.alipayobjects.com/zos/rmsportal/dURIMkkrRFpPgTuzkwnB.png", // Ant Design
+                "https://gw.alipayobjects.com/zos/rmsportal/sfjbOqnsXXJgNCjCzDBL.png", // Ant Design Pro
+                "https://gw.alipayobjects.com/zos/rmsportal/siCrBXXhmvTQGWPNLBow.png", // Bootstrap
+                "https://gw.alipayobjects.com/zos/rmsportal/kZzEzemZyKLKFsojXItE.png", // React
+                "https://gw.alipayobjects.com/zos/rmsportal/ComBAopevLwENQdKWiIn.png", // Vue
+                "https://gw.alipayobjects.com/zos/rmsportal/nxkuOJlFJuAUhzlMTCEe.png"};// Webpack}
         List<AttendOutputDto> dtos = new ArrayList<>();
+        Attend attend = new Attend();
+        attend.setAttendStatus("进行中");
+        List<Attend> attends = this.attendMapper.select(attend);
+        for(Attend t:attends){
+            AttendOutputDto dto = new AttendOutputDto();
+            dto.setId(String.valueOf(t.getAttendId()));
+            dto.setTitle(t.getAttendName());
+            dto.setMember(t.getManager());
+           // dto.setLogo("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1587198205593&di=95c2e9a0d158093659f7a93a090bced4&imgtype=0&src=http%3A%2F%2Fpic.51yuansu.com%2Fpic2%2Fcover%2F00%2F45%2F65%2F5814f401ea5a9_610.jpg");
+            dto.setLogo(logos[(int)(Math.random()*7)]);
+            dto.setUpadtedAt(new Date());
+            dto.setDescription(t.getClassroomId());
+            dtos.add(dto);
+        }
         return dtos;
     }
-
 
     @Override
     public List<AttendOutputDto> updateAttend(AttendOutputDto dto){
@@ -167,5 +187,8 @@ public class AttendServiceImpl extends BaseService<Attend> implements AttendServ
 //        }
 
     }
+
+    //
+    //public void
 
 }

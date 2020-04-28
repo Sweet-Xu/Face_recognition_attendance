@@ -140,7 +140,7 @@ public class StudentServiceImpl extends BaseService<Student> implements StudentS
     }
 
     @Override
-    public Student findById(Long studentId){
+    public Student findById(String studentId){
         System.out.println(studentId);
         return this.selectByKey(studentId);
     }

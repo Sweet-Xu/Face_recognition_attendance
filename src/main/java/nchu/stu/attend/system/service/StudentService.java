@@ -15,5 +15,5 @@ public interface StudentService extends IService<Student> {
     void updateStudent(StudentOutputDto student);
     void updateStudent(Student student);
     void deleteStudent(String studentId);
-    Student findById(Long stuId);
+    Student findById(String stuId);
 }
