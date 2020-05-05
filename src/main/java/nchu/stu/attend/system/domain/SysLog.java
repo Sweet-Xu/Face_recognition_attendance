@@ -41,7 +41,7 @@ public class SysLog implements Serializable {
 	private String ip;
 
 	@Column(name = "CREATE_TIME")
-	@ExportConfig(value = "操作时间", convert = "c:cc.hep.common.util.poi.convert.TimeConvert")
+	@ExportConfig(value = "操作时间", convert = "c:nchu.stu.attend.common.util.poi.convert.TimeConvert")
 	private Date createTime;
 
 	@Column(name = "LOCATION")

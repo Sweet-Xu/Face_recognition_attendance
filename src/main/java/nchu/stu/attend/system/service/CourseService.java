@@ -21,7 +21,7 @@ public interface CourseService extends IService<Course>{
 
     void updateCourse(Course course);
 
-    List<Course> findAllTodayCourse();
+   // List<Course> findAllTodayCourse();
 
 
 

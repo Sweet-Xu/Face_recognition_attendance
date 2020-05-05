@@ -10,6 +10,7 @@ import nchu.stu.attend.system.domain.Attend;
 import nchu.stu.attend.system.domain.Attend;
 import nchu.stu.attend.system.domain.Course;
 import nchu.stu.attend.system.domain.dto.AttendOutputDto;
+import nchu.stu.attend.system.domain.dto.AttendTitleOutputDto;
 import nchu.stu.attend.system.service.AttendService;
 import nchu.stu.attend.system.service.AttendService;
 import nchu.stu.attend.system.service.CourseService;
@@ -72,18 +73,11 @@ public class AttendController extends BaseController {
         return this.attendService.updateAttend(dto);
     }
 
-    @GetMapping("attend/getAttend")
+    @GetMapping("/api/attend/getAttend")
     @ResponseBody
-    public ResponseBo getAttendById(Long attendId){
-        try{
-            Attend attend = this.attendService.findById(attendId);
-            return ResponseBo.ok(attend);
-        }catch (Exception e){
-            log.error("获取考勤信息失败",e);
-            return ResponseBo.error("获取考勤信息失败，请联系网站管理员！");
-        }
+    public AttendTitleOutputDto getAttendById(Long attendId){
+      return this.attendService.findById(attendId);
     }
-
 
 
     //  @Log("更新考勤信息")
@@ -110,7 +104,6 @@ public class AttendController extends BaseController {
         Attend attend =new Attend();
         return this.attendService.findAllAttend(attend);
     }
-
 
 
     //更新考勤表状态

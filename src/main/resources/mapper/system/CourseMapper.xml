@@ -40,7 +40,7 @@
         <if test="courseStartTime != null and courseStartTime != '' ">
             AND t.course_start_time = #{courseStartTime}
         </if>
-        order by t.course_id
+
     </select>
 
 <!--    <select id="findByDateAndAddress" resultType="course" >-->

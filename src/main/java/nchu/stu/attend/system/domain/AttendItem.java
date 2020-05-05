@@ -1,6 +1,7 @@
 package nchu.stu.attend.system.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import nchu.stu.attend.common.annotation.ExportConfig;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -25,28 +26,34 @@ public class AttendItem implements Serializable {
     @Column(name = "attend_id")
     private Long attendId;
 
+    @Column(name = "attend_name")
+    @ExportConfig(value = "考勤表名称")
+    private String attendName;
+
     @Column(name = "student_id")
+    @ExportConfig(value = "学号")
     private String studentId;
 
     @Column(name = "student_name")
+    @ExportConfig(value = "学生姓名")
     private String studentName;
+
+    @Column(name = "check_type")
+//    @ExportConfig(value = "考勤类型")
+    private String checkType;
+
+    @Column(name = "attend_result")
+    @ExportConfig(value = "考勤结果")
+    private String attendResult;
 
 //    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 //    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "attend_time")
+  //  @ExportConfig(value = "打卡时间",convert = "c:nchu.stu.attend.common.util.poi.convert.TimeConvert")
     private Date attendTime;
 
 //    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
 
-
-    @Column(name = "attend_result")
-    private String attendResult;
-
-    @Column(name = "attend_name")
-    private String attendName;
-
-    @Column(name = "check_type")
-    private String checkType;
 
     public String getCheckType() {
         return checkType;
@@ -111,6 +118,8 @@ public class AttendItem implements Serializable {
     public void setAttendName(String attendName) {
         this.attendName = attendName;
     }
+
+
 
     @Override
     public String toString() {

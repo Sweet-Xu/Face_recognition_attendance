@@ -13,5 +13,7 @@
     <result column="PARAMS" jdbcType="VARCHAR" property="params" />
     <result column="IP" jdbcType="VARCHAR" property="ip" />
     <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="Location" jdbcType="VARCHAR" property="location" />
+
   </resultMap>
 </mapper>

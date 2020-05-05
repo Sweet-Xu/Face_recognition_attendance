@@ -10,7 +10,6 @@
         <result column="student_id" jdbcType="VARCHAR" property="studentId" />
         <result column="attend_time" jdbcType="DATE" property="attendTime" />
         <result column="attend_result" jdbcType="VARCHAR" property="attendResult" />
-
     </resultMap>
 
     <select id="findAllAttendItem" parameterType="attendItem" resultType="attendItem">

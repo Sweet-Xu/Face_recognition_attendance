@@ -53,7 +53,7 @@ public class CourseServiceImpl extends BaseService<Course> implements CourseServ
 
     @Override
     public List<Course> findAllCourse(Course course) {
-        return courseMapper.select(course);
+        return courseMapper.findAllCourse(course);
     }
 
     @Override
@@ -87,24 +87,25 @@ public class CourseServiceImpl extends BaseService<Course> implements CourseServ
 //
 //    }
     //batchAddCourses
-    @Override
-    public List<Course> findAllTodayCourse() {
-//        Date date = new Date();
-////        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-////        String d =sdf.format(date);
-////        try {
-////            Date newDate = sdf.parse(d);
-////            System.out.println("newDate:"+newDate);
-////            Course course = new Course();
-////            course.setCourseDate(newDate);
-////            List<Course> courses = courseMapper.findAllCourse(course);
-////            System.out.println(courses);
-////            return courses;
-////        }catch (Exception e){
-////            log.error("error", e);
-////            return new ArrayList<>();
-////        }
-        return new ArrayList<>();
 
-    }
+//    @Override
+//    public List<Course> findAllTodayCourse() {
+////        Date date = new Date();
+//////        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//////        String d =sdf.format(date);
+//////        try {
+//////            Date newDate = sdf.parse(d);
+//////            System.out.println("newDate:"+newDate);
+//////            Course course = new Course();
+//////            course.setCourseDate(newDate);
+//////            List<Course> courses = courseMapper.findAllCourse(course);
+//////            System.out.println(courses);
+//////            return courses;
+//////        }catch (Exception e){
+//////            log.error("error", e);
+//////            return new ArrayList<>();
+//////        }
+//        return new ArrayList<>();
+//
+//    }
 }

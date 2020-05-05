@@ -91,7 +91,7 @@ public class StudentController extends BaseController {
     @ResponseBody
     public ResponseBo getStudentById(Long stuId){
         try{
-            Student student = this.studentService.findById(stuId);
+            Student student = this.studentService.findById(String.valueOf(stuId));
             return ResponseBo.ok(student);
         }catch (Exception e){
             log.error("获取学生信息失败",e);

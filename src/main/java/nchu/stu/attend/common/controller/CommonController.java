@@ -19,7 +19,7 @@ public class CommonController {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
-    @RequestMapping("common/download")
+    @RequestMapping("api/common/download")
     public void fileDownload(String fileName, Boolean delete, HttpServletResponse response) throws Exception {
         if (StringUtils.isNotBlank(fileName) && !fileName.endsWith(".xlsx") && !fileName.endsWith(".csv"))
             throw new Exception("不支持该类型文件下载");
